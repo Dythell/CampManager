@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.8.34330.188
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CampManager", "CampManager.csproj", "{882A38D1-276C-4F9B-A13F-3A5B8A54E0F2}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{882A38D1-276C-4F9B-A13F-3A5B8A54E0F2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{882A38D1-276C-4F9B-A13F-3A5B8A54E0F2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{882A38D1-276C-4F9B-A13F-3A5B8A54E0F2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{882A38D1-276C-4F9B-A13F-3A5B8A54E0F2}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {F165A721-0DD3-466E-9C7E-6DCE15A429B5}
+	EndGlobalSection
+EndGlobal
