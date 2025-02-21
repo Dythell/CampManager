@@ -1,6 +1,6 @@
 ﻿public class Notification
 {
-    public int NotificationId { get; set; }
+    public int Notification_Id { get; set; }
     public int UserId { get; set; } // Получатель уведомления
     public string Message { get; set; }
     public DateTime CreatedAt { get; set; }

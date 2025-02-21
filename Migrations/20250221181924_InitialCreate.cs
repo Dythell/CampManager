@@ -7,7 +7,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace CampManager.Migrations
 {
     /// <inheritdoc />
-    public partial class InitPostgres : Migration
+    public partial class InitialCreate : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -16,7 +16,7 @@ namespace CampManager.Migrations
                 name: "Counselors",
                 columns: table => new
                 {
-                    CounselorId = table.Column<int>(type: "integer", nullable: false)
+                    Counselor_Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     Surname = table.Column<string>(type: "text", nullable: false),
                     Name = table.Column<string>(type: "text", nullable: false),
@@ -25,14 +25,14 @@ namespace CampManager.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Counselors", x => x.CounselorId);
+                    table.PrimaryKey("PK_Counselors", x => x.Counselor_Id);
                 });
 
             migrationBuilder.CreateTable(
                 name: "EventTemplates",
                 columns: table => new
                 {
-                    EventTemplateId = table.Column<int>(type: "integer", nullable: false)
+                    EventTemplate_Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     Name = table.Column<string>(type: "text", nullable: false),
                     Type = table.Column<string>(type: "text", nullable: false),
@@ -40,28 +40,28 @@ namespace CampManager.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_EventTemplates", x => x.EventTemplateId);
+                    table.PrimaryKey("PK_EventTemplates", x => x.EventTemplate_Id);
                 });
 
             migrationBuilder.CreateTable(
                 name: "Sessions",
                 columns: table => new
                 {
-                    SessionId = table.Column<int>(type: "integer", nullable: false)
+                    Session_Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     Number = table.Column<int>(type: "integer", nullable: false),
                     Type = table.Column<string>(type: "text", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Sessions", x => x.SessionId);
+                    table.PrimaryKey("PK_Sessions", x => x.Session_Id);
                 });
 
             migrationBuilder.CreateTable(
                 name: "Users",
                 columns: table => new
                 {
-                    UserId = table.Column<int>(type: "integer", nullable: false)
+                    User_Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     Username = table.Column<string>(type: "text", nullable: false),
                     PasswordHash = table.Column<string>(type: "text", nullable: false),
@@ -69,14 +69,14 @@ namespace CampManager.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Users", x => x.UserId);
+                    table.PrimaryKey("PK_Users", x => x.User_Id);
                 });
 
             migrationBuilder.CreateTable(
                 name: "Events",
                 columns: table => new
                 {
-                    EventId = table.Column<int>(type: "integer", nullable: false)
+                    Event_Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     SessionId = table.Column<int>(type: "integer", nullable: false),
                     EventTemplateId = table.Column<int>(type: "integer", nullable: true),
@@ -89,18 +89,18 @@ namespace CampManager.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Events", x => x.EventId);
+                    table.PrimaryKey("PK_Events", x => x.Event_Id);
                     table.ForeignKey(
                         name: "FK_Events_Counselors_CounselorId",
                         column: x => x.CounselorId,
                         principalTable: "Counselors",
-                        principalColumn: "CounselorId",
+                        principalColumn: "Counselor_Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Events_Sessions_SessionId",
                         column: x => x.SessionId,
                         principalTable: "Sessions",
-                        principalColumn: "SessionId",
+                        principalColumn: "Session_Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -108,19 +108,19 @@ namespace CampManager.Migrations
                 name: "Groups",
                 columns: table => new
                 {
-                    GroupId = table.Column<int>(type: "integer", nullable: false)
+                    Group_Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     Number = table.Column<int>(type: "integer", nullable: false),
                     SessionId = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Groups", x => x.GroupId);
+                    table.PrimaryKey("PK_Groups", x => x.Group_Id);
                     table.ForeignKey(
                         name: "FK_Groups_Sessions_SessionId",
                         column: x => x.SessionId,
                         principalTable: "Sessions",
-                        principalColumn: "SessionId",
+                        principalColumn: "Session_Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -128,25 +128,25 @@ namespace CampManager.Migrations
                 name: "SessionCounselors",
                 columns: table => new
                 {
-                    SessionCounselorId = table.Column<int>(type: "integer", nullable: false)
+                    SessionCounselor_Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     SessionId = table.Column<int>(type: "integer", nullable: false),
                     CounselorId = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_SessionCounselors", x => x.SessionCounselorId);
+                    table.PrimaryKey("PK_SessionCounselors", x => x.SessionCounselor_Id);
                     table.ForeignKey(
                         name: "FK_SessionCounselors_Counselors_CounselorId",
                         column: x => x.CounselorId,
                         principalTable: "Counselors",
-                        principalColumn: "CounselorId",
+                        principalColumn: "Counselor_Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_SessionCounselors_Sessions_SessionId",
                         column: x => x.SessionId,
                         principalTable: "Sessions",
-                        principalColumn: "SessionId",
+                        principalColumn: "Session_Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -154,7 +154,7 @@ namespace CampManager.Migrations
                 name: "Notifications",
                 columns: table => new
                 {
-                    NotificationId = table.Column<int>(type: "integer", nullable: false)
+                    Notification_Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     UserId = table.Column<int>(type: "integer", nullable: false),
                     Message = table.Column<string>(type: "text", nullable: false),
@@ -163,12 +163,12 @@ namespace CampManager.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Notifications", x => x.NotificationId);
+                    table.PrimaryKey("PK_Notifications", x => x.Notification_Id);
                     table.ForeignKey(
                         name: "FK_Notifications_Users_UserId",
                         column: x => x.UserId,
                         principalTable: "Users",
-                        principalColumn: "UserId",
+                        principalColumn: "User_Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -176,7 +176,7 @@ namespace CampManager.Migrations
                 name: "Children",
                 columns: table => new
                 {
-                    ChildId = table.Column<int>(type: "integer", nullable: false)
+                    Child_Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     Surname = table.Column<string>(type: "text", nullable: false),
                     Name = table.Column<string>(type: "text", nullable: false),
@@ -187,12 +187,12 @@ namespace CampManager.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Children", x => x.ChildId);
+                    table.PrimaryKey("PK_Children", x => x.Child_Id);
                     table.ForeignKey(
                         name: "FK_Children_Groups_GroupId",
                         column: x => x.GroupId,
                         principalTable: "Groups",
-                        principalColumn: "GroupId",
+                        principalColumn: "Group_Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -200,25 +200,25 @@ namespace CampManager.Migrations
                 name: "SessionChildren",
                 columns: table => new
                 {
-                    SessionChildId = table.Column<int>(type: "integer", nullable: false)
+                    SessionChild_Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     SessionId = table.Column<int>(type: "integer", nullable: false),
                     ChildId = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_SessionChildren", x => x.SessionChildId);
+                    table.PrimaryKey("PK_SessionChildren", x => x.SessionChild_Id);
                     table.ForeignKey(
                         name: "FK_SessionChildren_Children_ChildId",
                         column: x => x.ChildId,
                         principalTable: "Children",
-                        principalColumn: "ChildId",
+                        principalColumn: "Child_Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_SessionChildren_Sessions_SessionId",
                         column: x => x.SessionId,
                         principalTable: "Sessions",
-                        principalColumn: "SessionId",
+                        principalColumn: "Session_Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 

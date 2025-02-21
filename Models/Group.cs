@@ -1,6 +1,6 @@
 ﻿public class Group
 {
-    public int GroupId { get; set; }
+    public int Group_Id { get; set; }
     public int Number { get; set; } // Номер отряда (1-10)
     public int SessionId { get; set; }
 

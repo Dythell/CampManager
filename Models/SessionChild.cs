@@ -1,6 +1,6 @@
 ﻿public class SessionChild
 {
-    public int SessionChildId { get; set; }
+    public int SessionChild_Id { get; set; }
     public int SessionId { get; set; }
     public int ChildId { get; set; }
 

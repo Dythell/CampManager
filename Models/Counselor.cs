@@ -1,6 +1,6 @@
 ﻿public class Counselor
 {
-    public int CounselorId { get; set; }
+    public int Counselor_Id { get; set; }
     public string Surname { get; set; }
     public string Name { get; set; }
     public string Patronymic { get; set; }

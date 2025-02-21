@@ -1,6 +1,6 @@
 ﻿public class Event
 {
-    public int EventId { get; set; }
+    public int Event_Id { get; set; }
     public int SessionId { get; set; }
     public int? EventTemplateId { get; set; } // Может быть null для кастомных событий
     public string? CustomName { get; set; } // Название кастомного мероприятия

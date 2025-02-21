@@ -23,11 +23,11 @@ namespace CampManager.Migrations
 
             modelBuilder.Entity("Child", b =>
                 {
-                    b.Property<int>("ChildId")
+                    b.Property<int>("Child_Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("ChildId"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Child_Id"));
 
                     b.Property<DateTime>("BirthYear")
                         .HasColumnType("timestamp with time zone");
@@ -51,7 +51,7 @@ namespace CampManager.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.HasKey("ChildId");
+                    b.HasKey("Child_Id");
 
                     b.HasIndex("GroupId");
 
@@ -60,11 +60,11 @@ namespace CampManager.Migrations
 
             modelBuilder.Entity("Counselor", b =>
                 {
-                    b.Property<int>("CounselorId")
+                    b.Property<int>("Counselor_Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("CounselorId"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Counselor_Id"));
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -82,18 +82,18 @@ namespace CampManager.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.HasKey("CounselorId");
+                    b.HasKey("Counselor_Id");
 
                     b.ToTable("Counselors");
                 });
 
             modelBuilder.Entity("Event", b =>
                 {
-                    b.Property<int>("EventId")
+                    b.Property<int>("Event_Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("EventId"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Event_Id"));
 
                     b.Property<int>("CounselorId")
                         .HasColumnType("integer");
@@ -121,7 +121,7 @@ namespace CampManager.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.HasKey("EventId");
+                    b.HasKey("Event_Id");
 
                     b.HasIndex("CounselorId");
 
@@ -132,11 +132,11 @@ namespace CampManager.Migrations
 
             modelBuilder.Entity("EventTemplate", b =>
                 {
-                    b.Property<int>("EventTemplateId")
+                    b.Property<int>("EventTemplate_Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("EventTemplateId"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("EventTemplate_Id"));
 
                     b.Property<string>("DefaultDescription")
                         .IsRequired()
@@ -150,18 +150,18 @@ namespace CampManager.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.HasKey("EventTemplateId");
+                    b.HasKey("EventTemplate_Id");
 
                     b.ToTable("EventTemplates");
                 });
 
             modelBuilder.Entity("Group", b =>
                 {
-                    b.Property<int>("GroupId")
+                    b.Property<int>("Group_Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("GroupId"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Group_Id"));
 
                     b.Property<int>("Number")
                         .HasColumnType("integer");
@@ -169,7 +169,7 @@ namespace CampManager.Migrations
                     b.Property<int>("SessionId")
                         .HasColumnType("integer");
 
-                    b.HasKey("GroupId");
+                    b.HasKey("Group_Id");
 
                     b.HasIndex("SessionId");
 
@@ -178,11 +178,11 @@ namespace CampManager.Migrations
 
             modelBuilder.Entity("Notification", b =>
                 {
-                    b.Property<int>("NotificationId")
+                    b.Property<int>("Notification_Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("NotificationId"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Notification_Id"));
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
@@ -197,7 +197,7 @@ namespace CampManager.Migrations
                     b.Property<int>("UserId")
                         .HasColumnType("integer");
 
-                    b.HasKey("NotificationId");
+                    b.HasKey("Notification_Id");
 
                     b.HasIndex("UserId");
 
@@ -206,11 +206,11 @@ namespace CampManager.Migrations
 
             modelBuilder.Entity("Session", b =>
                 {
-                    b.Property<int>("SessionId")
+                    b.Property<int>("Session_Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("SessionId"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Session_Id"));
 
                     b.Property<int>("Number")
                         .HasColumnType("integer");
@@ -219,18 +219,18 @@ namespace CampManager.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.HasKey("SessionId");
+                    b.HasKey("Session_Id");
 
                     b.ToTable("Sessions");
                 });
 
             modelBuilder.Entity("SessionChild", b =>
                 {
-                    b.Property<int>("SessionChildId")
+                    b.Property<int>("SessionChild_Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("SessionChildId"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("SessionChild_Id"));
 
                     b.Property<int>("ChildId")
                         .HasColumnType("integer");
@@ -238,7 +238,7 @@ namespace CampManager.Migrations
                     b.Property<int>("SessionId")
                         .HasColumnType("integer");
 
-                    b.HasKey("SessionChildId");
+                    b.HasKey("SessionChild_Id");
 
                     b.HasIndex("ChildId");
 
@@ -249,11 +249,11 @@ namespace CampManager.Migrations
 
             modelBuilder.Entity("SessionCounselor", b =>
                 {
-                    b.Property<int>("SessionCounselorId")
+                    b.Property<int>("SessionCounselor_Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("SessionCounselorId"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("SessionCounselor_Id"));
 
                     b.Property<int>("CounselorId")
                         .HasColumnType("integer");
@@ -261,7 +261,7 @@ namespace CampManager.Migrations
                     b.Property<int>("SessionId")
                         .HasColumnType("integer");
 
-                    b.HasKey("SessionCounselorId");
+                    b.HasKey("SessionCounselor_Id");
 
                     b.HasIndex("CounselorId");
 
@@ -272,11 +272,11 @@ namespace CampManager.Migrations
 
             modelBuilder.Entity("User", b =>
                 {
-                    b.Property<int>("UserId")
+                    b.Property<int>("User_Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("UserId"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("User_Id"));
 
                     b.Property<string>("PasswordHash")
                         .IsRequired()
@@ -290,7 +290,7 @@ namespace CampManager.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.HasKey("UserId");
+                    b.HasKey("User_Id");
 
                     b.ToTable("Users");
                 });

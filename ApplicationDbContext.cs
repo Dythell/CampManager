@@ -8,6 +8,40 @@ public class ApplicationDbContext : DbContext
     {
         optionsBuilder.UseNpgsql("Host=localhost;Port=5432;Database=camp_db;Username=postgres;Password=1503");
     }
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        modelBuilder.Entity<Child>()
+            .HasKey(c => c.Child_Id);
+
+        modelBuilder.Entity<Counselor>()
+            .HasKey(c => c.Counselor_Id);
+
+        modelBuilder.Entity<Event>()
+            .HasKey(c => c.Event_Id);
+
+        modelBuilder.Entity<EventTemplate>()
+            .HasKey(c => c.EventTemplate_Id);
+
+        modelBuilder.Entity<Group>()
+            .HasKey(c => c.Group_Id);
+
+        modelBuilder.Entity<Notification>()
+            .HasKey(c => c.Notification_Id);
+
+        modelBuilder.Entity<Session>()
+            .HasKey(c => c.Session_Id);
+
+        modelBuilder.Entity<SessionChild>()
+            .HasKey(c => c.SessionChild_Id);
+
+        modelBuilder.Entity<SessionCounselor>()
+            .HasKey(c => c.SessionCounselor_Id);
+
+        modelBuilder.Entity<User>()
+            .HasKey(c => c.User_Id);
+    }
+
+
 
     public DbSet<User> Users { get; set; }
     public DbSet<Counselor> Counselors { get; set; }
