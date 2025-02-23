@@ -6,7 +6,7 @@ public class ApplicationDbContext : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-        optionsBuilder.UseNpgsql("Host=localhost;Port=5432;Database=camp_db;Username=postgres;Password=1503");
+        optionsBuilder.UseNpgsql("Host=localhost;Port=5432;Database=camp_db;Username=postgres;Password=1503;Encoding=UTF8");
     }
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -54,3 +54,4 @@ public class ApplicationDbContext : DbContext
     public DbSet<SessionCounselor> SessionCounselors { get; set; }
     public DbSet<SessionChild> SessionChildren { get; set; }
 }
+//  \c camp_db

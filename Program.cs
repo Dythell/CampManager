@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.FileProviders;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 
@@ -14,7 +15,7 @@ builder.Services.AddControllers();
 
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("AllowFrontend",
+    options.AddPolicy("AllowAll",
         policy => policy.AllowAnyOrigin()
                         .AllowAnyMethod()
                         .AllowAnyHeader());
@@ -43,14 +44,20 @@ builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
+app.UseStaticFiles(new StaticFileOptions
+{
+    FileProvider = new PhysicalFileProvider(
+        Path.Combine(Directory.GetCurrentDirectory(), "pages")),
+    RequestPath = "/pages"
+});
+
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
 }
 
-
-app.UseCors("AllowFrontend");
+app.UseCors("AllowAll");
 
 app.UseRouting();
 

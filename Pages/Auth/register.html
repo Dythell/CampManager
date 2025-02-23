@@ -1,0 +1,32 @@
+﻿<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Регистрация</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h2>Регистрация</h2>
+        <form id="registerForm">
+            <label for="registerUsername">Логин:</label>
+            <input type="text" id="registerUsername" required>
+
+            <label for="registerPassword">Пароль:</label>
+            <input type="password" id="registerPassword" required>
+
+            <label for="registerRole">Роль:</label>
+            <select id="registerRole">
+                <option value="Counselor">Вожатый</option>
+                <option value="Admin">Админ</option>
+            </select>
+
+            <button type="submit">Зарегистрироваться</button>
+        </form>
+        <p id="registerError" class="error"></p>
+        <p>Уже есть аккаунт? <a href="login.html">Войти</a></p>
+    </div>
+    <script src="auth.js"></script>
+</body>
+</html>

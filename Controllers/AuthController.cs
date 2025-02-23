@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace CampManager.Controllers
@@ -36,6 +37,8 @@ namespace CampManager.Controllers
         {
             if (await _context.Users.AnyAsync(u => u.Username == request.Username))
                 return BadRequest(new { message = "Пользователь уже существует" });
+
+            string fixedUsername = Encoding.UTF8.GetString(Encoding.Default.GetBytes(request.Username));
 
             var user = new User
             {
