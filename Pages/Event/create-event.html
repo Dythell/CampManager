@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Создать мероприятие - CampManager</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <h1>Создание мероприятия</h1>
+        <nav>
+            <ul>
+                <li><a href="../MainPage/main.html">Главная</a></li>
+                <li><a href="#" id="logout">Выход</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <div class="container">
+            <h2>Новое мероприятие</h2>
+            <form id="createEventForm">
+                <label for="sessionId">ID смены:</label>
+                <input type="number" id="sessionId" required>
+
+                <label for="templateId">ID шаблона (если применимо):</label>
+                <input type="number" id="templateId" placeholder="Оставьте пустым для кастомного">
+
+                <label for="customName">Название (если кастомное):</label>
+                <input type="text" id="customName" placeholder="Введите название">
+
+                <label for="isCustomEvent">Кастомное мероприятие?</label>
+                <select id="isCustomEvent" required>
+                    <option value="false">Нет</option>
+                    <option value="true">Да</option>
+                </select>
+
+                <label for="type">Тип мероприятия:</label>
+                <select id="type" required>
+                    <option value="Спортивное">Спортивное</option>
+                    <option value="Творческое">Творческое</option>
+                    <option value="Общелагерное">Общелагерное</option>
+                </select>
+
+                <label for="dateTime">Дата и время:</label>
+                <input type="datetime-local" id="dateTime" required>
+
+                <label for="status">Статус мероприятия:</label>
+                <select id="status" required>
+                    <option value="Запланировано">Запланировано</option>
+                    <option value="Выполнено">Выполнено</option>
+                    <option value="Отменено">Отменено</option>
+                </select>
+
+                <label for="counselorSelect">Выберите ответственного вожатого:</label>
+                <select id="counselorSelect" required>
+                </select>
+
+                <button type="submit">Создать мероприятие</button>
+            </form>
+            <p id="eventError" class="error"></p>
+        </div>
+    </main>
+
+    <script src="create-event.js"></script>
+</body>
+</html>

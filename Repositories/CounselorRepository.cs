@@ -21,6 +21,10 @@ namespace CampManager.Repositories
         {
             return await _context.Counselors.FindAsync(counselorId);
         }
+        public async Task<IEnumerable<Counselor>> GetAllCounselorsAsync()
+        {
+            return await _context.Counselors.ToListAsync();
+        }
 
         public async Task SaveChangesAsync()
         {

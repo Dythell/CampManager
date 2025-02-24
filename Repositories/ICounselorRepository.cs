@@ -7,6 +7,7 @@ namespace CampManager.Repositories
         Task AddCounselorAsync(Counselor counselor);
         Task<Counselor?> GetCounselorByIdAsync(int counselorId);
         Task<Counselor?> GetCounselorByUserIdAsync(int userId);
+        Task<IEnumerable<Counselor>> GetAllCounselorsAsync();
         Task SaveChangesAsync();
     }
 }

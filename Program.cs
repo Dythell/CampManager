@@ -18,6 +18,9 @@ builder.Services.AddScoped<IUserRepository, UserRepository>();
 
 builder.Services.AddScoped<ICounselorRepository, CounselorRepository>();
 
+builder.Services.AddScoped<IEventRepository, EventRepository>();
+
+builder.Services.AddScoped<ICounselorRepository, CounselorRepository>();
 
 builder.Services.AddCors(options =>
 {

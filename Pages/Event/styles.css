@@ -9,15 +9,13 @@ header {
     background-color: #333;
     color: white;
     padding: 10px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+    text-align: center;
 }
 
 nav ul {
     list-style: none;
-    margin: 0;
     padding: 0;
+    margin: 0;
 }
 
     nav ul li {
@@ -30,36 +28,51 @@ nav ul {
             text-decoration: none;
         }
 
-main {
-    max-width: 800px;
-    margin: 20px auto;
-    padding: 20px;
+.container {
     background: white;
+    padding: 20px;
     border-radius: 8px;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    width: 400px;
+    margin: 20px auto;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+h2 {
     text-align: center;
+    margin-bottom: 20px;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+label {
+    margin-top: 10px;
+}
+
+input, select {
+    padding: 8px;
+    margin-top: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
 }
 
 button {
-    padding: 10px 20px;
-    background-color: #007bff;
+    margin-top: 15px;
+    padding: 10px;
+    background-color: #28a745;
     color: white;
     border: none;
     border-radius: 4px;
     cursor: pointer;
-    margin: 10px;
 }
 
     button:hover {
-        background-color: #0056b3;
+        background-color: #218838;
     }
 
-#eventsSection {
-    text-align: left;
-    margin-top: 30px;
-}
-
-#eventsList li {
-    padding: 5px;
-    border-bottom: 1px solid #ddd;
+.error {
+    color: red;
+    margin-top: 10px;
 }
