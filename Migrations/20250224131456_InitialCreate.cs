@@ -13,22 +13,6 @@ namespace CampManager.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Counselors",
-                columns: table => new
-                {
-                    Counselor_Id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Surname = table.Column<string>(type: "text", nullable: false),
-                    Name = table.Column<string>(type: "text", nullable: false),
-                    Patronymic = table.Column<string>(type: "text", nullable: false),
-                    PhoneNumber = table.Column<string>(type: "text", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Counselors", x => x.Counselor_Id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "EventTemplates",
                 columns: table => new
                 {
@@ -73,38 +57,6 @@ namespace CampManager.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Events",
-                columns: table => new
-                {
-                    Event_Id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    SessionId = table.Column<int>(type: "integer", nullable: false),
-                    EventTemplateId = table.Column<int>(type: "integer", nullable: true),
-                    CustomName = table.Column<string>(type: "text", nullable: true),
-                    IsCustomEvent = table.Column<bool>(type: "boolean", nullable: false),
-                    Type = table.Column<string>(type: "text", nullable: false),
-                    DateTime = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    Status = table.Column<string>(type: "text", nullable: false),
-                    CounselorId = table.Column<int>(type: "integer", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Events", x => x.Event_Id);
-                    table.ForeignKey(
-                        name: "FK_Events_Counselors_CounselorId",
-                        column: x => x.CounselorId,
-                        principalTable: "Counselors",
-                        principalColumn: "Counselor_Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Events_Sessions_SessionId",
-                        column: x => x.SessionId,
-                        principalTable: "Sessions",
-                        principalColumn: "Session_Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Groups",
                 columns: table => new
                 {
@@ -125,28 +77,25 @@ namespace CampManager.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "SessionCounselors",
+                name: "Counselors",
                 columns: table => new
                 {
-                    SessionCounselor_Id = table.Column<int>(type: "integer", nullable: false)
+                    Counselor_Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    SessionId = table.Column<int>(type: "integer", nullable: false),
-                    CounselorId = table.Column<int>(type: "integer", nullable: false)
+                    User_Id = table.Column<int>(type: "integer", nullable: false),
+                    Surname = table.Column<string>(type: "text", nullable: false),
+                    Name = table.Column<string>(type: "text", nullable: false),
+                    Patronymic = table.Column<string>(type: "text", nullable: false),
+                    PhoneNumber = table.Column<string>(type: "text", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_SessionCounselors", x => x.SessionCounselor_Id);
+                    table.PrimaryKey("PK_Counselors", x => x.Counselor_Id);
                     table.ForeignKey(
-                        name: "FK_SessionCounselors_Counselors_CounselorId",
-                        column: x => x.CounselorId,
-                        principalTable: "Counselors",
-                        principalColumn: "Counselor_Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_SessionCounselors_Sessions_SessionId",
-                        column: x => x.SessionId,
-                        principalTable: "Sessions",
-                        principalColumn: "Session_Id",
+                        name: "FK_Counselors_Users_User_Id",
+                        column: x => x.User_Id,
+                        principalTable: "Users",
+                        principalColumn: "User_Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -197,6 +146,64 @@ namespace CampManager.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Events",
+                columns: table => new
+                {
+                    Event_Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    SessionId = table.Column<int>(type: "integer", nullable: false),
+                    EventTemplateId = table.Column<int>(type: "integer", nullable: true),
+                    CustomName = table.Column<string>(type: "text", nullable: true),
+                    IsCustomEvent = table.Column<bool>(type: "boolean", nullable: false),
+                    Type = table.Column<string>(type: "text", nullable: false),
+                    DateTime = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    Status = table.Column<string>(type: "text", nullable: false),
+                    CounselorId = table.Column<int>(type: "integer", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Events", x => x.Event_Id);
+                    table.ForeignKey(
+                        name: "FK_Events_Counselors_CounselorId",
+                        column: x => x.CounselorId,
+                        principalTable: "Counselors",
+                        principalColumn: "Counselor_Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Events_Sessions_SessionId",
+                        column: x => x.SessionId,
+                        principalTable: "Sessions",
+                        principalColumn: "Session_Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "SessionCounselors",
+                columns: table => new
+                {
+                    SessionCounselor_Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    SessionId = table.Column<int>(type: "integer", nullable: false),
+                    CounselorId = table.Column<int>(type: "integer", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_SessionCounselors", x => x.SessionCounselor_Id);
+                    table.ForeignKey(
+                        name: "FK_SessionCounselors_Counselors_CounselorId",
+                        column: x => x.CounselorId,
+                        principalTable: "Counselors",
+                        principalColumn: "Counselor_Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_SessionCounselors_Sessions_SessionId",
+                        column: x => x.SessionId,
+                        principalTable: "Sessions",
+                        principalColumn: "Session_Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "SessionChildren",
                 columns: table => new
                 {
@@ -226,6 +233,12 @@ namespace CampManager.Migrations
                 name: "IX_Children_GroupId",
                 table: "Children",
                 column: "GroupId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Counselors_User_Id",
+                table: "Counselors",
+                column: "User_Id",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Events_CounselorId",
@@ -287,9 +300,6 @@ namespace CampManager.Migrations
                 name: "SessionCounselors");
 
             migrationBuilder.DropTable(
-                name: "Users");
-
-            migrationBuilder.DropTable(
                 name: "Children");
 
             migrationBuilder.DropTable(
@@ -297,6 +307,9 @@ namespace CampManager.Migrations
 
             migrationBuilder.DropTable(
                 name: "Groups");
+
+            migrationBuilder.DropTable(
+                name: "Users");
 
             migrationBuilder.DropTable(
                 name: "Sessions");

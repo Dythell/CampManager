@@ -1,15 +1,16 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Регистрация</title>
+    <title>Регистрация - CampManager</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <div class="container">
         <h2>Регистрация</h2>
         <form id="registerForm">
+
             <label for="registerUsername">Логин:</label>
             <input type="text" id="registerUsername" required>
 
@@ -17,16 +18,30 @@
             <input type="password" id="registerPassword" required>
 
             <label for="registerRole">Роль:</label>
-            <select id="registerRole">
+            <select id="registerRole" required>
                 <option value="Counselor">Вожатый</option>
-                <option value="Admin">Админ</option>
+                <option value="Admin">Администратор</option>
             </select>
+
+            <div id="counselorFields" style="display: none;">
+                <label for="registerSurname">Фамилия:</label>
+                <input type="text" id="registerSurname">
+
+                <label for="registerName">Имя:</label>
+                <input type="text" id="registerName">
+
+                <label for="registerPatronymic">Отчество:</label>
+                <input type="text" id="registerPatronymic">
+
+                <label for="registerPhoneNumber">Телефон:</label>
+                <input type="text" id="registerPhoneNumber">
+            </div>
 
             <button type="submit">Зарегистрироваться</button>
         </form>
         <p id="registerError" class="error"></p>
         <p>Уже есть аккаунт? <a href="login.html">Войти</a></p>
     </div>
-    <script src="auth.js"></script>
+    <script src="register.js"></script>
 </body>
 </html>

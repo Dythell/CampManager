@@ -82,7 +82,13 @@ namespace CampManager.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<int>("User_Id")
+                        .HasColumnType("integer");
+
                     b.HasKey("Counselor_Id");
+
+                    b.HasIndex("User_Id")
+                        .IsUnique();
 
                     b.ToTable("Counselors");
                 });
@@ -306,6 +312,17 @@ namespace CampManager.Migrations
                     b.Navigation("Group");
                 });
 
+            modelBuilder.Entity("Counselor", b =>
+                {
+                    b.HasOne("User", "User")
+                        .WithOne("Counselor")
+                        .HasForeignKey("Counselor", "User_Id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("Event", b =>
                 {
                     b.HasOne("Counselor", "Counselor")
@@ -383,6 +400,11 @@ namespace CampManager.Migrations
                     b.Navigation("Counselor");
 
                     b.Navigation("Session");
+                });
+
+            modelBuilder.Entity("User", b =>
+                {
+                    b.Navigation("Counselor");
                 });
 #pragma warning restore 612, 618
         }

@@ -1,4 +1,4 @@
-﻿public class SessionCounselor
+public class SessionCounselor
 {
     public int SessionCounselor_Id { get; set; }
     public int SessionId { get; set; }

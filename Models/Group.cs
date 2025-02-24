@@ -1,4 +1,4 @@
-﻿public class Group
+public class Group
 {
     public int Group_Id { get; set; }
     public int Number { get; set; } // Номер отряда (1-10)

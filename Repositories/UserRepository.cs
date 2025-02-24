@@ -1,4 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
 
 namespace CampManager.Repositories
@@ -35,6 +35,12 @@ namespace CampManager.Repositories
         public async Task SaveChangesAsync()
         {
             await _context.SaveChangesAsync();
+        }
+        public async Task<User> GetUserWithCounselorAsync(int userId)
+        {
+            return await _context.Users
+                .Include(u => u.Counselor)
+                .FirstOrDefaultAsync(u => u.User_Id == userId);
         }
     }
 }

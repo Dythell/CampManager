@@ -1,4 +1,4 @@
-﻿public class Notification
+public class Notification
 {
     public int Notification_Id { get; set; }
     public int UserId { get; set; } // Получатель уведомления

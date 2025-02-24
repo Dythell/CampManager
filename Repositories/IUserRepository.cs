@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace CampManager.Repositories
@@ -10,5 +10,6 @@ namespace CampManager.Repositories
         Task<bool> UserExistsAsync(string username);
         Task AddUserAsync(User user);
         Task SaveChangesAsync();
+        Task<User> GetUserWithCounselorAsync(int userId);
     }
 }

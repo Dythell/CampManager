@@ -1,4 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 public class ApplicationDbContext : DbContext
 {
@@ -14,7 +14,10 @@ public class ApplicationDbContext : DbContext
             .HasKey(c => c.Child_Id);
 
         modelBuilder.Entity<Counselor>()
-            .HasKey(c => c.Counselor_Id);
+                .HasOne(c => c.User)
+                .WithOne(u => u.Counselor)
+                .HasForeignKey<Counselor>(c => c.User_Id)
+                .OnDelete(DeleteBehavior.Cascade);
 
         modelBuilder.Entity<Event>()
             .HasKey(c => c.Event_Id);

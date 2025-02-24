@@ -1,5 +1,13 @@
-﻿public record UserDTO(
-    int Users_Id,
+public record UserDTO(
+    int User_Id,
     string Username,
-    string Role
-    );
+    string Role,
+    CounselorDTO CounselorData
+);
+
+public record CounselorDTO(
+    string Surname,
+    string Name,
+    string Patronymic,
+    string PhoneNumber
+);

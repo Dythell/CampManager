@@ -1,4 +1,4 @@
-﻿public class EventTemplate
+public class EventTemplate
 {
     public int EventTemplate_Id { get; set; }
     public string Name { get; set; }

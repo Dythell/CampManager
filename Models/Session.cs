@@ -1,4 +1,4 @@
-﻿public class Session
+public class Session
 {
     public int Session_Id { get; set; }
     public int Number { get; set; } // Номер смены

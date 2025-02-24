@@ -1,4 +1,4 @@
-﻿public record LoginRequestDTO(
+public record LoginRequestDTO(
     string Username,
     string Password
     );
