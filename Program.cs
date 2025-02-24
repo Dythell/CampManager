@@ -1,3 +1,4 @@
+using CampManager.Repositories;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.FileProviders;
@@ -12,6 +13,9 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 
 
 builder.Services.AddControllers();
+
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+
 
 builder.Services.AddCors(options =>
 {
