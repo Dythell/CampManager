@@ -42,6 +42,18 @@ public class ApplicationDbContext : DbContext
 
         modelBuilder.Entity<User>()
             .HasKey(c => c.User_Id);
+
+        modelBuilder.Entity<Comment>()
+            .HasOne(c => c.User)
+            .WithMany()
+            .HasForeignKey(c => c.User_Id)
+            .OnDelete(DeleteBehavior.Cascade);
+
+        modelBuilder.Entity<Comment>()
+            .HasOne(c => c.Event)
+            .WithMany(e => e.Comments)
+            .HasForeignKey(c => c.Event_Id)
+            .OnDelete(DeleteBehavior.Cascade);
     }
 
 
@@ -56,5 +68,7 @@ public class ApplicationDbContext : DbContext
     public DbSet<EventTemplate> EventTemplates { get; set; }
     public DbSet<SessionCounselor> SessionCounselors { get; set; }
     public DbSet<SessionChild> SessionChildren { get; set; }
+    public DbSet<Comment> Comments { get; set; }
+
 }
 //  \c camp_db

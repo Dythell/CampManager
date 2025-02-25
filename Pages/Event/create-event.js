@@ -75,4 +75,8 @@ document.addEventListener("DOMContentLoaded", async () => {
             eventError.textContent = error.message;
         }
     });
+    document.getElementById("logout").addEventListener("click", () => {
+        localStorage.removeItem("token");
+        window.location.href = "../Auth/login.html";
+    });
 });

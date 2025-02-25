@@ -12,6 +12,7 @@ public class Event
 
     public Session Session { get; set; }
     public Counselor Counselor { get; set; }
+    public List<Comment> Comments { get; set; } = new List<Comment>();
 }
 
 //Есть 2 варианта мероприятия:

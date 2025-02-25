@@ -58,6 +58,36 @@ namespace CampManager.Migrations
                     b.ToTable("Children");
                 });
 
+            modelBuilder.Entity("Comment", b =>
+                {
+                    b.Property<int>("Comment_Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Comment_Id"));
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<int>("Event_Id")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("Message")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<int>("User_Id")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Comment_Id");
+
+                    b.HasIndex("Event_Id");
+
+                    b.HasIndex("User_Id");
+
+                    b.ToTable("Comments");
+                });
+
             modelBuilder.Entity("Counselor", b =>
                 {
                     b.Property<int>("Counselor_Id")
@@ -312,6 +342,25 @@ namespace CampManager.Migrations
                     b.Navigation("Group");
                 });
 
+            modelBuilder.Entity("Comment", b =>
+                {
+                    b.HasOne("Event", "Event")
+                        .WithMany("Comments")
+                        .HasForeignKey("Event_Id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("User", "User")
+                        .WithMany()
+                        .HasForeignKey("User_Id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Event");
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("Counselor", b =>
                 {
                     b.HasOne("User", "User")
@@ -400,6 +449,11 @@ namespace CampManager.Migrations
                     b.Navigation("Counselor");
 
                     b.Navigation("Session");
+                });
+
+            modelBuilder.Entity("Event", b =>
+                {
+                    b.Navigation("Comments");
                 });
 
             modelBuilder.Entity("User", b =>

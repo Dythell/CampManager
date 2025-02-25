@@ -229,10 +229,48 @@ namespace CampManager.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "Comments",
+                columns: table => new
+                {
+                    Comment_Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Message = table.Column<string>(type: "text", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    User_Id = table.Column<int>(type: "integer", nullable: false),
+                    Event_Id = table.Column<int>(type: "integer", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Comments", x => x.Comment_Id);
+                    table.ForeignKey(
+                        name: "FK_Comments_Events_Event_Id",
+                        column: x => x.Event_Id,
+                        principalTable: "Events",
+                        principalColumn: "Event_Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Comments_Users_User_Id",
+                        column: x => x.User_Id,
+                        principalTable: "Users",
+                        principalColumn: "User_Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_Children_GroupId",
                 table: "Children",
                 column: "GroupId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Comments_Event_Id",
+                table: "Comments",
+                column: "Event_Id");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Comments_User_Id",
+                table: "Comments",
+                column: "User_Id");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Counselors_User_Id",
@@ -285,7 +323,7 @@ namespace CampManager.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Events");
+                name: "Comments");
 
             migrationBuilder.DropTable(
                 name: "EventTemplates");
@@ -298,6 +336,9 @@ namespace CampManager.Migrations
 
             migrationBuilder.DropTable(
                 name: "SessionCounselors");
+
+            migrationBuilder.DropTable(
+                name: "Events");
 
             migrationBuilder.DropTable(
                 name: "Children");

@@ -29,17 +29,21 @@ document.addEventListener("DOMContentLoaded", async () => {
                 "Authorization": `Bearer ${token}`
             }
         });
-        if (!response.ok) throw new Error("Не удалось загрузить мероприятия");
+        if (!response.ok) throw new Error("РќРµ СѓРґР°Р»РѕСЃСЊ Р·Р°РіСЂСѓР·РёС‚СЊ РјРµСЂРѕРїСЂРёСЏС‚РёСЏ");
         const events = await response.json();
         eventsList.innerHTML = "";
         events.forEach(ev => {
             const li = document.createElement("li");
-            // Отображаем название кастомного мероприятия или название из шаблона уже имеющегося
-            li.textContent = ev.customName || ev.eventTemplateName || ev.type + " - " + new Date(ev.dateTime).toLocaleString();
+            const eventTitle = ev.customName || ev.eventTemplateName || ev.type;
+            const eventTime = new Date(ev.dateTime).toLocaleString();
+            const link = document.createElement("a");
+            link.href = `../Event/event-details.html?eventId=${ev.event_Id}`;
+            link.textContent = `${eventTitle} - ${eventTime}`;
+            li.appendChild(link);
             eventsList.appendChild(li);
         });
     } catch (error) {
         console.error(error);
-        eventsList.innerHTML = `<li>Ошибка загрузки мероприятий: ${error.message}</li>`;
+        eventsList.innerHTML = `<li>РћС€РёР±РєР° Р·Р°РіСЂСѓР·РєРё РјРµСЂРѕРїСЂРёСЏС‚РёР№: ${error.message}</li>`;
     }
 });

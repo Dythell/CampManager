@@ -119,3 +119,8 @@ D:\кодики\CampManager\bin\Debug\net8.0\Swashbuckle.AspNetCore.SwaggerGen.d
 D:\кодики\CampManager\bin\Debug\net8.0\Swashbuckle.AspNetCore.SwaggerUI.dll
 D:\кодики\CampManager\bin\Debug\net8.0\System.IdentityModel.Tokens.Jwt.dll
 D:\кодики\CampManager\obj\Debug\net8.0\CampManager.MvcApplicationPartsAssemblyInfo.cs
+D:\кодики\CampManager\bin\Debug\net8.0\Microsoft.Extensions.Diagnostics.Abstractions.dll
+D:\кодики\CampManager\bin\Debug\net8.0\Microsoft.Extensions.Hosting.Abstractions.dll
+D:\кодики\CampManager\bin\Debug\net8.0\Microsoft.Extensions.ObjectPool.dll
+D:\кодики\CampManager\bin\Debug\net8.0\Newtonsoft.Json.dll
+D:\кодики\CampManager\bin\Debug\net8.0\System.Net.WebSockets.WebSocketProtocol.dll
