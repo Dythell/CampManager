@@ -20,7 +20,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
 
     try {
-        const commentsResponse = await fetch(`https://localhost:7060/api/comments?eventId=${eventId}`, {
+        const commentsResponse = await fetch(`https://localhost:7060/api/comments?event_Id=${eventId}`, {
             method: "GET",
             headers: {
                 "Authorization": `Bearer ${token}`
@@ -32,9 +32,10 @@ document.addEventListener("DOMContentLoaded", async () => {
         commentsList.innerHTML = "";
         comments.forEach(comment => {
             const li = document.createElement("li");
-            li.textContent = `${comment.Username} (${new Date(comment.CreatedAt).toLocaleString()}): ${comment.Message}`;
+            li.textContent = `${comment.displayName} (${new Date(comment.createdAt).toLocaleString()}): ${comment.message}`;
             commentsList.appendChild(li);
         });
+
     } catch (error) {
         console.error("Ошибка загрузки комментариев:", error);
     }
@@ -45,10 +46,10 @@ document.addEventListener("DOMContentLoaded", async () => {
         })
         .build();
 
-    connection.on("ReceiveComment", (receivedEventId, username, message, createdAt) => {
+    connection.on("ReceiveComment", (receivedEventId, displayName, message, createdAt) => {
         if (receivedEventId === eventId) {
             const li = document.createElement("li");
-            li.textContent = `${username} (${new Date(createdAt).toLocaleString()}): ${message}`;
+            li.textContent = `${displayName} (${new Date(createdAt).toLocaleString()}): ${message}`;
             document.getElementById("commentsList").appendChild(li);
         }
     });
@@ -61,13 +62,11 @@ document.addEventListener("DOMContentLoaded", async () => {
         })
         .catch(err => console.error("Ошибка подключения к CommentHub:", err));
 
-    const fullName = localStorage.getItem("fullName") || "Пользователь";
-
     document.getElementById("sendCommentBtn").addEventListener("click", async () => {
         const message = document.getElementById("commentMessage").value;
         if (!message.trim()) return;
         try {
-            await connection.invoke("SendComment", eventId, fullName, message);
+            await connection.invoke("SendComment", eventId, message);
             document.getElementById("commentMessage").value = "";
         } catch (err) {
             console.error("Ошибка отправки комментария:", err);

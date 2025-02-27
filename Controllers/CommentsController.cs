@@ -22,6 +22,7 @@ namespace CampManager.Controllers
             var comments = await _context.Comments
                 .Where(c => c.Event_Id == event_Id)
                 .Include(c => c.User)
+                    .ThenInclude(u => u.Counselor)
                 .OrderBy(c => c.CreatedAt)
                 .ToListAsync();
 
@@ -30,10 +31,15 @@ namespace CampManager.Controllers
                 c.Event_Id,
                 c.Message,
                 CreatedAt = c.CreatedAt,
-                Username = c.User.Username
+                DisplayName = c.User.Role == "Counselor" && c.User.Counselor != null
+                    ? $"{c.User.Counselor.Surname} {c.User.Counselor.Name}"
+                    : c.User.Username
             });
 
             return Ok(result);
         }
+
+
+
     }
 }
