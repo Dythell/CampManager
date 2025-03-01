@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Смены - CampManager</title>
+    <link rel="stylesheet" href="sessions.css">
+</head>
+<body>
+    <header>
+        <h1>Смены</h1>
+        <nav>
+            <ul>
+                <li><a href="../MainPage/main.html">Главная</a></li>
+                <li><a href="#" id="logout">Выход</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <section class="session-form">
+            <h2>Создать новую смену</h2>
+            <form id="sessionForm">
+                <label for="number">Номер смены:</label>
+                <input type="number" id="number" required>
+
+                <label for="type">Тип смены:</label>
+                <select id="type" required>
+                    <option value="Обычная">Обычная</option>
+                    <option value="Профильная">Профильная</option>
+                </select>
+
+                <label for="year">Год:</label>
+                <input type="number" id="year" required placeholder="2023">
+
+                <label for="season">Сезон:</label>
+                <select id="season" required>
+                    <option value="Летний">Летний</option>
+                    <option value="Зимний">Зимний</option>
+                </select>
+
+                <button type="submit">Создать смену</button>
+            </form>
+            <p id="sessionError" class="error"></p>
+        </section>
+        <section class="session-list">
+            <h2>Список смен</h2>
+            <ul id="sessionsList"></ul>
+        </section>
+    </main>
+    <script src="sessions.js"></script>
+</body>
+</html>

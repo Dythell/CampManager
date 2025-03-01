@@ -54,6 +54,18 @@ public class ApplicationDbContext : DbContext
             .WithMany(e => e.Comments)
             .HasForeignKey(c => c.Event_Id)
             .OnDelete(DeleteBehavior.Cascade);
+
+        modelBuilder.Entity<Group>()
+       .HasOne(g => g.SessionCounselor)
+       .WithMany()
+       .HasForeignKey(g => g.SessionCounselor_Id)
+       .OnDelete(DeleteBehavior.Cascade);
+
+        modelBuilder.Entity<Group>()
+            .HasOne(g => g.Session)
+            .WithMany()
+            .HasForeignKey(g => g.SessionId)
+            .OnDelete(DeleteBehavior.Cascade);
     }
 
 

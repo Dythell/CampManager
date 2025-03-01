@@ -86,7 +86,6 @@ namespace CampManager.Controllers
 
 
         [HttpGet]
-        [Authorize(Roles = "Counselor")]
         public async Task<IActionResult> GetEvents()
         {
             try
@@ -121,7 +120,6 @@ namespace CampManager.Controllers
             }
         }
         [HttpGet("{eventId}")]
-        [Authorize(Roles = "Counselor")]
         public async Task<IActionResult> GetEventById(int eventId)
         {
             try
