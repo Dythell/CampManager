@@ -63,3 +63,26 @@ button {
     padding: 5px;
     border-bottom: 1px solid #ddd;
 }
+
+.buttons-container {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+    .buttons-container button {
+        padding: 10px 20px;
+        font-size: 16px;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: background-color 0.3s, transform 0.2s;
+    }
+
+        .buttons-container button:hover {
+            background-color: #0056b3;
+            transform: scale(1.05);
+        }

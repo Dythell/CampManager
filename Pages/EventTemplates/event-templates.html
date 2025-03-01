@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Шаблоны мероприятий</title>
+    <link rel="stylesheet" href="event-templates.css">
+    <script defer src="event-templates.js"></script>
+</head>
+<body>
+    <h1>Шаблоны мероприятий</h1>
+    <nav>
+        <ul>
+            <li><a href="../MainPage/main.html">Главная</a></li>
+            <li><a href="#" id="logout">Выход</a></li>
+        </ul>
+    </nav>
+
+    <ul id="templateList"></ul>
+
+    <h2>Добавить новый шаблон</h2>
+    <form id="templateForm">
+        <label for="name">Название:</label>
+        <input type="text" id="name" required>
+
+        <label for="type">Тип:</label>
+        <select id="type" required>
+            <option value="Спортивное">Спортивное</option>
+            <option value="Творческое">Творческое</option>
+            <option value="Общелагерное">Общелагерное</option>
+        </select>
+
+        <label for="description">Описание:</label>
+        <textarea id="description"></textarea>
+
+        <button type="submit">Создать</button>
+    </form>
+</body>
+</html>

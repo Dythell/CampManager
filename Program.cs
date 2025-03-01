@@ -24,6 +24,9 @@ builder.Services.AddScoped<IEventRepository, EventRepository>();
 
 builder.Services.AddScoped<ICounselorRepository, CounselorRepository>();
 
+builder.Services.AddScoped<IEventTemplateRepository, EventTemplateRepository>();
+
+
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowFrontend",

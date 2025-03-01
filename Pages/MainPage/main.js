@@ -49,4 +49,8 @@ document.addEventListener("DOMContentLoaded", async () => {
         console.error(error);
         eventsList.innerHTML = `<li>Ошибка загрузки мероприятий: ${error.message}</li>`;
     }
+
+    document.getElementById("templatesBtn").addEventListener("click", () => {
+        window.location.href = "../EventTemplates/event-templates.html";
+    });
 });
