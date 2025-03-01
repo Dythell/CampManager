@@ -10,9 +10,6 @@ document.addEventListener("DOMContentLoaded", async () => {
         return;
     }
 
-    document.getElementById("eventTitle").textContent = `Мероприятие №${eventId}`;
-    document.getElementById("eventDateTime").textContent = `Дата и время: ${new Date().toLocaleString()}`;
-
     const token = localStorage.getItem("token");
     if (!token) {
         window.location.href = "../Auth/login.html";
@@ -20,16 +17,31 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
 
     try {
+        const eventResponse = await fetch(`https://localhost:7060/api/events/${eventId}`, {
+            method: "GET",
+            headers: {
+                "Authorization": `Bearer ${token}`
+            }
+        });
+
+        if (!eventResponse.ok) throw new Error("Не удалось загрузить данные мероприятия");
+        const eventData = await eventResponse.json();
+
+        document.getElementById("eventTitle").textContent = eventData.eventName || `Мероприятие №${eventId}`;
+        document.getElementById("eventDateTime").textContent = `Дата и время: ${new Date(eventData.dateTime).toLocaleString()}`;
+
         const commentsResponse = await fetch(`https://localhost:7060/api/comments?event_Id=${eventId}`, {
             method: "GET",
             headers: {
                 "Authorization": `Bearer ${token}`
             }
         });
+
         if (!commentsResponse.ok) throw new Error("Не удалось загрузить комментарии");
         const comments = await commentsResponse.json();
         const commentsList = document.getElementById("commentsList");
         commentsList.innerHTML = "";
+
         comments.forEach(comment => {
             const li = document.createElement("li");
             li.textContent = `${comment.displayName} (${new Date(comment.createdAt).toLocaleString()}): ${comment.message}`;
@@ -37,7 +49,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         });
 
     } catch (error) {
-        console.error("Ошибка загрузки комментариев:", error);
+        console.error("Ошибка загрузки данных:", error);
     }
 
     const connection = new signalR.HubConnectionBuilder()

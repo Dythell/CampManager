@@ -16,7 +16,6 @@
             </ul>
         </nav>
     </header>
-
     <main>
         <div class="container">
             <h2>Новое мероприятие</h2>
@@ -24,24 +23,24 @@
                 <label for="sessionId">ID смены:</label>
                 <input type="number" id="sessionId" required>
 
-                <label for="templateId">ID шаблона (если применимо):</label>
-                <input type="number" id="templateId" placeholder="Оставьте пустым для кастомного">
-
-                <label for="customName">Название (если кастомное):</label>
-                <input type="text" id="customName" placeholder="Введите название">
-
-                <label for="isCustomEvent">Кастомное мероприятие?</label>
-                <select id="isCustomEvent" required>
-                    <option value="false">Нет</option>
-                    <option value="true">Да</option>
+                <label for="eventTemplateSelect">Шаблон мероприятия (опционально):</label>
+                <select id="eventTemplateSelect">
+                    <option value="">-- Выберите шаблон --</option>
                 </select>
 
-                <label for="type">Тип мероприятия:</label>
-                <select id="type" required>
-                    <option value="Спортивное">Спортивное</option>
-                    <option value="Творческое">Творческое</option>
-                    <option value="Общелагерное">Общелагерное</option>
-                </select>
+                <div id="customNameContainer">
+                    <label for="customName">Название мероприятия (если не выбран шаблон):</label>
+                    <input type="text" id="customName" placeholder="Введите название">
+                </div>
+
+                <div id="typeContainer">
+                    <label for="type">Тип мероприятия:</label>
+                    <select id="type" required>
+                        <option value="Спортивное">Спортивное</option>
+                        <option value="Творческое">Творческое</option>
+                        <option value="Общелагерное">Общелагерное</option>
+                    </select>
+                </div>
 
                 <label for="dateTime">Дата и время:</label>
                 <input type="datetime-local" id="dateTime" required>
@@ -62,7 +61,6 @@
             <p id="eventError" class="error"></p>
         </div>
     </main>
-
     <script src="create-event.js"></script>
 </body>
 </html>

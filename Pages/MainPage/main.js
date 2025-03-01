@@ -32,10 +32,13 @@ document.addEventListener("DOMContentLoaded", async () => {
         if (!response.ok) throw new Error("Не удалось загрузить мероприятия");
         const events = await response.json();
         eventsList.innerHTML = "";
+
         events.forEach(ev => {
             const li = document.createElement("li");
-            const eventTitle = ev.customName || ev.eventTemplateName || ev.type;
+
+            let eventTitle = ev.eventName || "Без названия";
             const eventTime = new Date(ev.dateTime).toLocaleString();
+
             const link = document.createElement("a");
             link.href = `../Event/event-details.html?eventId=${ev.event_Id}`;
             link.textContent = `${eventTitle} - ${eventTime}`;

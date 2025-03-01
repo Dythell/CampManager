@@ -1,6 +1,10 @@
 document.addEventListener("DOMContentLoaded", async () => {
     const createEventForm = document.getElementById("createEventForm");
     const counselorSelect = document.getElementById("counselorSelect");
+    const templateSelect = document.getElementById("eventTemplateSelect");
+    const typeSelect = document.getElementById("type");
+    const typeContainer = document.getElementById("typeContainer");
+    const customNameContainer = document.getElementById("customNameContainer");
     const eventError = document.getElementById("eventError");
 
     const token = localStorage.getItem("token");
@@ -8,6 +12,8 @@ document.addEventListener("DOMContentLoaded", async () => {
         window.location.href = "../Auth/login.html";
         return;
     }
+
+    let eventTemplates = [];
 
     try {
         const response = await fetch("https://localhost:7060/api/counselors", {
@@ -30,15 +36,61 @@ document.addEventListener("DOMContentLoaded", async () => {
         eventError.textContent = error.message;
     }
 
+    try {
+        const response = await fetch("https://localhost:7060/api/eventtemplates", {
+            headers: {
+                "Authorization": `Bearer ${token}`
+            }
+        });
+        if (!response.ok) {
+            throw new Error("Не удалось загрузить список шаблонов мероприятий");
+        }
+        eventTemplates = await response.json();
+        eventTemplates.forEach(template => {
+            const option = document.createElement("option");
+            option.value = template.eventTemplate_Id;
+            option.textContent = `${template.name} (${template.type})`;
+            templateSelect.appendChild(option);
+        });
+    } catch (error) {
+        console.error(error);
+        eventError.textContent = error.message;
+    }
+
+    // Обработчик изменения выбора шаблона мероприятия 
+    templateSelect.addEventListener("change", () => {
+        if (templateSelect.value) {
+            const selectedTemplate = eventTemplates.find(t => t.eventTemplate_Id == templateSelect.value);
+            if (selectedTemplate) {
+                typeSelect.value = selectedTemplate.type;
+            }
+            // Если шаблон выбран, скрываем контейнеры и исключаем из валидации
+            typeContainer.style.display = "none";
+            typeSelect.disabled = true;
+
+            customNameContainer.style.display = "none";
+        } else {
+            // Если шаблон не выбран, показываем поля и включаем валидацию
+            typeContainer.style.display = "block";
+            typeSelect.disabled = false;
+            typeSelect.setAttribute("required", "required");
+
+            customNameContainer.style.display = "block";
+        }
+    });
+
+
     createEventForm.addEventListener("submit", async (e) => {
         e.preventDefault();
 
         const sessionId = parseInt(document.getElementById("sessionId").value);
-        const templateIdVal = document.getElementById("templateId").value;
+        const templateIdVal = templateSelect.value;
         const eventTemplateId = templateIdVal ? parseInt(templateIdVal) : null;
         const customName = document.getElementById("customName").value;
-        const isCustomEvent = document.getElementById("isCustomEvent").value === "true";
-        const type = document.getElementById("type").value;
+        // Если шаблон выбран, событие не кастомное и наоборот
+        const isCustomEvent = templateSelect.value ? false : true;
+        // Если шаблон выбран, тип берется автоматически из таблицы шаблнов, если нет то вручную вводится
+        const type = typeSelect.value;
         const dateTime = document.getElementById("dateTime").value;
         const status = document.getElementById("status").value;
         const counselorId = parseInt(counselorSelect.value);
@@ -46,7 +98,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         const payload = {
             SessionId: sessionId,
             EventTemplateId: eventTemplateId,
-            CustomName: customName,
+            CustomName: templateSelect.value ? null : customName,  // Игнорируем кастомное название, если выбран шаблон
             IsCustomEvent: isCustomEvent,
             Type: type,
             DateTime: new Date(dateTime),
@@ -75,6 +127,7 @@ document.addEventListener("DOMContentLoaded", async () => {
             eventError.textContent = error.message;
         }
     });
+
     document.getElementById("logout").addEventListener("click", () => {
         localStorage.removeItem("token");
         window.location.href = "../Auth/login.html";
