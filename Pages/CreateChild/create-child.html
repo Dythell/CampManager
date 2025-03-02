@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Добавление ребенка - CampManager</title>
+    <link rel="stylesheet" href="create-child.css">
+</head>
+<body>
+    <header>
+        <h1>Добавление ребенка</h1>
+        <nav>
+            <ul>
+                <li><a href="../MainPage/main.html">Главная</a></li>
+                <li><a href="#" id="logout">Выход</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <div class="container">
+            <h2>Добавить ребенка в отряд</h2>
+            <form id="childForm">
+                <label for="surname">Фамилия:</label>
+                <input type="text" id="surname" required>
+
+                <label for="name">Имя:</label>
+                <input type="text" id="name" required>
+
+                <label for="patronymic">Отчество:</label>
+                <input type="text" id="patronymic" required>
+
+                <label for="birthYear">Дата рождения:</label>
+                <input type="date" id="birthYear" required>
+
+                <label for="parentNumber">Контакт родителя:</label>
+                <input type="text" id="parentNumber" required>
+
+                <label for="groupSelect">Выберите отряд:</label>
+                <select id="groupSelect" required>
+                    <option value="">-- Выберите отряд --</option>
+                </select>
+
+                <button type="submit">Добавить ребенка</button>
+            </form>
+            <p id="childError" class="error"></p>
+        </div>
+    </main>
+    <script src="create-child.js"></script>
+</body>
+</html>

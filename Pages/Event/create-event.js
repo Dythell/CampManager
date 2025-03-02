@@ -1,5 +1,6 @@
 document.addEventListener("DOMContentLoaded", async () => {
     const createEventForm = document.getElementById("createEventForm");
+    const sessionSelect = document.getElementById("sessionSelect");
     const counselorSelect = document.getElementById("counselorSelect");
     const templateSelect = document.getElementById("eventTemplateSelect");
     const typeSelect = document.getElementById("type");
@@ -16,14 +17,29 @@ document.addEventListener("DOMContentLoaded", async () => {
     let eventTemplates = [];
 
     try {
+        const response = await fetch("https://localhost:7060/api/sessions", {
+            headers: { "Authorization": `Bearer ${token}` }
+        });
+        if (!response.ok) throw new Error("Не удалось загрузить список смен");
+        const sessions = await response.json();
+        sessions.forEach(session => {
+            const option = document.createElement("option");
+            option.value = session.session_Id;
+            option.textContent = `Смена №${session.number} (${session.year} - ${session.season}, ${session.type})`;
+            sessionSelect.appendChild(option);
+        });
+    } catch (error) {
+        console.error(error);
+        eventError.textContent = error.message;
+    }
+
+    try {
         const response = await fetch("https://localhost:7060/api/counselors", {
             headers: {
                 "Authorization": `Bearer ${token}`
             }
         });
-        if (!response.ok) {
-            throw new Error("Не удалось загрузить список вожатых");
-        }
+        if (!response.ok) throw new Error("Не удалось загрузить список вожатых");
         const counselors = await response.json();
         counselors.forEach(counselor => {
             const option = document.createElement("option");
@@ -42,9 +58,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                 "Authorization": `Bearer ${token}`
             }
         });
-        if (!response.ok) {
-            throw new Error("Не удалось загрузить список шаблонов мероприятий");
-        }
+        if (!response.ok) throw new Error("Не удалось загрузить список шаблонов мероприятий");
         eventTemplates = await response.json();
         eventTemplates.forEach(template => {
             const option = document.createElement("option");
@@ -67,26 +81,23 @@ document.addEventListener("DOMContentLoaded", async () => {
             // Если шаблон выбран, скрываем контейнеры и исключаем из валидации
             typeContainer.style.display = "none";
             typeSelect.disabled = true;
-
             customNameContainer.style.display = "none";
         } else {
             // Если шаблон не выбран, показываем поля и включаем валидацию
             typeContainer.style.display = "block";
             typeSelect.disabled = false;
-            typeSelect.setAttribute("required", "required");
-
             customNameContainer.style.display = "block";
         }
     });
 
-
     createEventForm.addEventListener("submit", async (e) => {
         e.preventDefault();
 
-        const sessionId = parseInt(document.getElementById("sessionId").value);
+        const sessionId = parseInt(sessionSelect.value);
+
         const templateIdVal = templateSelect.value;
         const eventTemplateId = templateIdVal ? parseInt(templateIdVal) : null;
-        const customName = document.getElementById("customName").value;
+        const customName = templateSelect.value ? null : document.getElementById("customName").value;
         // Если шаблон выбран, событие не кастомное и наоборот
         const isCustomEvent = templateSelect.value ? false : true;
         // Если шаблон выбран, тип берется автоматически из таблицы шаблнов, если нет то вручную вводится
@@ -98,7 +109,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         const payload = {
             SessionId: sessionId,
             EventTemplateId: eventTemplateId,
-            CustomName: templateSelect.value ? null : customName,  // Игнорируем кастомное название, если выбран шаблон
+            CustomName: customName,
             IsCustomEvent: isCustomEvent,
             Type: type,
             DateTime: new Date(dateTime),

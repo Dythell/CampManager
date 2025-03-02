@@ -6,6 +6,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     const eventsList = document.getElementById("eventsList");
     const templatesBtn = document.getElementById("templatesBtn");
     const createSessionBtn = document.getElementById("createSessionBtn");
+    const createChildBtn = document.getElementById("createChildBtn");
 
     if (token) {
         profileLink.style.display = "inline";
@@ -29,12 +30,15 @@ document.addEventListener("DOMContentLoaded", async () => {
         const profileData = await profileResponse.json();
         if (profileData.role === "Admin") {
             createSessionBtn.style.display = "inline-block";
+            createChildBtn.style.display = "inline-block";
         } else {
             createSessionBtn.style.display = "none";
+            createChildBtn.style.display = "none";
         }
     } catch (error) {
         console.error("Ошибка загрузки профиля:", error);
         createSessionBtn.style.display = "none";
+        createChildBtn.style.display = "none";
     }
 
     logout.addEventListener("click", () => {
@@ -53,6 +57,11 @@ document.addEventListener("DOMContentLoaded", async () => {
     createSessionBtn.addEventListener("click", () => {
         window.location.href = "../Sessions/sessions.html";
     });
+
+    createChildBtn.addEventListener("click", () => {
+        window.location.href = "../CreateChild/create-child.html";
+    });
+
 
     try {
         const response = await fetch("https://localhost:7060/api/events", {

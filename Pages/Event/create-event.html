@@ -20,8 +20,10 @@
         <div class="container">
             <h2>Новое мероприятие</h2>
             <form id="createEventForm">
-                <label for="sessionId">ID смены:</label>
-                <input type="number" id="sessionId" required>
+                <label for="sessionSelect">Выберите смену:</label>
+                <select id="sessionSelect" required>
+                    <option value="">-- Выберите смену --</option>
+                </select>
 
                 <label for="eventTemplateSelect">Шаблон мероприятия (опционально):</label>
                 <select id="eventTemplateSelect">

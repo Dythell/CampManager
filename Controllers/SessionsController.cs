@@ -7,7 +7,6 @@ namespace CampManager.Controllers
 {
     [Route("api/sessions")]
     [ApiController]
-    [Authorize(Roles = "Admin")]
     public class SessionsController : ControllerBase
     {
         private readonly ISessionRepository _sessionRepository;
@@ -17,6 +16,7 @@ namespace CampManager.Controllers
             _sessionRepository = sessionRepository;
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<IActionResult> CreateSession([FromBody] CreateSessionDTO request)
         {

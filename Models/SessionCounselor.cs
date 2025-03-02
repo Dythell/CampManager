@@ -1,5 +1,8 @@
+using System.ComponentModel.DataAnnotations;
+
 public class SessionCounselor
 {
+    [Key]
     public int SessionCounselor_Id { get; set; }
     public int SessionId { get; set; }
     public int CounselorId { get; set; }

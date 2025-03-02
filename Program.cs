@@ -28,6 +28,12 @@ builder.Services.AddScoped<IEventTemplateRepository, EventTemplateRepository>();
 
 builder.Services.AddScoped<ISessionRepository, SessionRepository> ();
 
+builder.Services.AddScoped<IChildRepository, ChildRepository>();
+
+builder.Services.AddScoped<ISessionChildRepository, SessionChildRepository>();
+
+builder.Services.AddScoped<IGroupRepository, GroupRepository>();
+
 
 builder.Services.AddCors(options =>
 {
