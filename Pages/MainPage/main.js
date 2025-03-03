@@ -7,6 +7,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     const templatesBtn = document.getElementById("templatesBtn");
     const createSessionBtn = document.getElementById("createSessionBtn");
     const createChildBtn = document.getElementById("createChildBtn");
+    const manageGroupsBtn = document.getElementById("manageGroupsBtn");
 
     if (token) {
         profileLink.style.display = "inline";
@@ -28,17 +29,21 @@ document.addEventListener("DOMContentLoaded", async () => {
             throw new Error("Ошибка при загрузке профиля");
         }
         const profileData = await profileResponse.json();
+
         if (profileData.role === "Admin") {
             createSessionBtn.style.display = "inline-block";
             createChildBtn.style.display = "inline-block";
+            manageGroupsBtn.style.display = "inline-block";
         } else {
             createSessionBtn.style.display = "none";
             createChildBtn.style.display = "none";
+            manageGroupsBtn.style.display = "none";
         }
     } catch (error) {
         console.error("Ошибка загрузки профиля:", error);
         createSessionBtn.style.display = "none";
         createChildBtn.style.display = "none";
+        manageGroupsBtn.style.display = "none";
     }
 
     logout.addEventListener("click", () => {
@@ -62,6 +67,9 @@ document.addEventListener("DOMContentLoaded", async () => {
         window.location.href = "../CreateChild/create-child.html";
     });
 
+    manageGroupsBtn.addEventListener("click", () => {
+        window.location.href = "../Groups/groups.html";
+    });
 
     try {
         const response = await fetch("https://localhost:7060/api/events", {
@@ -73,7 +81,6 @@ document.addEventListener("DOMContentLoaded", async () => {
         if (!response.ok) throw new Error("Не удалось загрузить мероприятия");
         const events = await response.json();
         eventsList.innerHTML = "";
-
         events.forEach(ev => {
             const li = document.createElement("li");
             let eventTitle = ev.eventName || "Без названия";

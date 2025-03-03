@@ -1,39 +1,40 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Главная - CampManager</title>
-    <link rel="stylesheet" href="styles.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Главная - CampManager</title>
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <header>
-        <h1>CampManager</h1>
-        <nav>
-            <ul>
-                <li><a href="../ProfilePage/profile.html" id="profileLink" style="display:none;">Профиль</a></li>
-                <li><a href="#" id="logout" style="display:none;">Выход</a></li>
-            </ul>
-        </nav>
-    </header>
+  <header>
+    <h1>CampManager</h1>
+    <nav>
+      <ul>
+        <li><a href="../ProfilePage/profile.html" id="profileLink" style="display:none;">Профиль</a></li>
+        <li><a href="#" id="logout" style="display:none;">Выход</a></li>
+      </ul>
+    </nav>
+  </header>
 
-    <main>
-        <h2>Добро пожаловать в CampManager!</h2>
-        <p>Управляйте сменами, следите за расписанием и организуйте мероприятия для детей.</p>
+  <main>
+    <h2>Добро пожаловать в CampManager!</h2>
+    <p>Управляйте сменами, следите за расписанием и организуйте мероприятия для детей.</p>
 
-        <div class="buttons-container">
-            <button id="createEventBtn">Создать мероприятие</button>
-            <button id="templatesBtn">Шаблоны мероприятий</button>
-            <button id="createSessionBtn">Создать смену</button>
-            <button id="createChildBtn">Добавить ребенка</button>
-        </div>
+    <div class="buttons-container">
+      <button id="createEventBtn">Создать мероприятие</button>
+      <button id="templatesBtn">Шаблоны мероприятий</button>
+      <button id="createSessionBtn">Создать смену</button>
+      <button id="createChildBtn" style="display:none;">Добавить ребенка</button>
+      <button id="manageGroupsBtn" style="display:none;">Создать отряд</button>
+    </div>
 
-        <section id="eventsSection">
-            <h3>Список мероприятий</h3>
-            <ul id="eventsList"></ul>
-        </section>
-    </main>
+    <section id="eventsSection">
+      <h3>Список мероприятий</h3>
+      <ul id="eventsList"></ul>
+    </section>
+  </main>
 
-    <script src="main.js"></script>
+  <script src="main.js"></script>
 </body>
 </html>

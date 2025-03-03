@@ -1,13 +1,14 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using System.Threading.Tasks;
+using CampManager.Repositories;
 
 namespace CampManager.Controllers
 {
     [Route("api/groups")]
     [ApiController]
-    [Authorize(Roles = "Admin")]
     public class GroupsController : ControllerBase
     {
         private readonly IGroupRepository _groupRepository;
@@ -49,6 +50,7 @@ namespace CampManager.Controllers
             return Ok(result);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<IActionResult> CreateGroup([FromBody] CreateGroupDTO request)
         {
@@ -57,11 +59,26 @@ namespace CampManager.Controllers
                 return BadRequest(new { message = "Некорректные данные" });
             }
 
+            // Ищем запись SessionCounselor по SessionId и CounselorId (из DTO)
+            var sessionCounselor = await _context.SessionCounselors
+                .FirstOrDefaultAsync(sc => sc.SessionId == request.SessionId && sc.CounselorId == request.CounselorId);
+            if (sessionCounselor == null)
+            {
+                // Если такой записи нет, создаём новую
+                sessionCounselor = new SessionCounselor
+                {
+                    SessionId = request.SessionId,
+                    CounselorId = request.CounselorId
+                };
+                _context.SessionCounselors.Add(sessionCounselor);
+                await _context.SaveChangesAsync();
+            }
+
             var group = new Group
             {
                 Name = request.Name,
                 Number = request.Number,
-                SessionCounselor_Id = request.SessionCounselor_Id,
+                SessionCounselor_Id = sessionCounselor.SessionCounselor_Id,
                 SessionId = request.SessionId
             };
 

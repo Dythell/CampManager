@@ -1,9 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 
-public interface IGroupRepository
+namespace CampManager.Repositories
 {
-    Task<List<Group>> GetAllGroupsAsync();
-    Task AddGroupAsync(Group group);
-    Task SaveChangesAsync();
+    public interface IGroupRepository
+    {
+        Task<List<Group>> GetAllGroupsAsync();
+        Task AddGroupAsync(Group group);
+        Task SaveChangesAsync();
+    }
 }

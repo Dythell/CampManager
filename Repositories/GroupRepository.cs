@@ -2,32 +2,34 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-
-public class GroupRepository : IGroupRepository
+namespace CampManager.Repositories
 {
-    private readonly ApplicationDbContext _context;
-
-    public GroupRepository(ApplicationDbContext context)
+    public class GroupRepository : IGroupRepository
     {
-        _context = context;
-    }
+        private readonly ApplicationDbContext _context;
 
-    public async Task<List<Group>> GetAllGroupsAsync()
-    {
-        return await _context.Groups
-            .Include(g => g.Session)
-            .Include(g => g.SessionCounselor)
-                .ThenInclude(sc => sc.Counselor)
-            .ToListAsync();
-    }
+        public GroupRepository(ApplicationDbContext context)
+        {
+            _context = context;
+        }
 
-    public async Task AddGroupAsync(Group group)
-    {
-        await _context.Groups.AddAsync(group);
-    }
+        public async Task<List<Group>> GetAllGroupsAsync()
+        {
+            return await _context.Groups
+                .Include(g => g.Session)
+                .Include(g => g.SessionCounselor)
+                    .ThenInclude(sc => sc.Counselor)
+                .ToListAsync();
+        }
 
-    public async Task SaveChangesAsync()
-    {
-        await _context.SaveChangesAsync();
+        public async Task AddGroupAsync(Group group)
+        {
+            await _context.Groups.AddAsync(group);
+        }
+
+        public async Task SaveChangesAsync()
+        {
+            await _context.SaveChangesAsync();
+        }
     }
 }
