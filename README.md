@@ -39,7 +39,7 @@
 ### Настройка базы данных PostgreSQL
 
 1. **Установите PostgreSQL** (версия 13+).
-2. **Создайте базу данных** (например, `camp_db`).
+2. **Создайте базу данных** (`camp_db`).
 3. **Настройте строку подключения** в файле `appsettings.json` или `appsettings.Development.json`:
    ```json
    {
@@ -60,7 +60,7 @@ dotnet ef database update
 ## Запуск бекенда
   1.Клонируйте репозиторий:
 ```bash
-git clone https://github.com/username/CampManager.git
+git clone https://github.com/Dythell/CampManager.git
 ```
   2.Перейдите в папку проекта:
 ```bash
@@ -150,4 +150,4 @@ CampManager
 ---
 ## Контакты
   Автор: Дмитрий Мишланов
-  GitHub: https://github.com/dythell/CampManager
+  GitHub: https://github.com/Dythell/CampManager
