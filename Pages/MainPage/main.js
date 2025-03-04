@@ -8,6 +8,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     const createSessionBtn = document.getElementById("createSessionBtn");
     const createChildBtn = document.getElementById("createChildBtn");
     const manageGroupsBtn = document.getElementById("manageGroupsBtn");
+    const sessionDetailsBtn = document.getElementById("sessionDetailsBtn");
 
     if (token) {
         profileLink.style.display = "inline";
@@ -29,7 +30,6 @@ document.addEventListener("DOMContentLoaded", async () => {
             throw new Error("Ошибка при загрузке профиля");
         }
         const profileData = await profileResponse.json();
-
         if (profileData.role === "Admin") {
             createSessionBtn.style.display = "inline-block";
             createChildBtn.style.display = "inline-block";
@@ -45,6 +45,10 @@ document.addEventListener("DOMContentLoaded", async () => {
         createChildBtn.style.display = "none";
         manageGroupsBtn.style.display = "none";
     }
+
+    sessionDetailsBtn.addEventListener("click", () => {
+        window.location.href = "../SessionDetails/session-details.html";
+    });
 
     logout.addEventListener("click", () => {
         localStorage.removeItem("token");

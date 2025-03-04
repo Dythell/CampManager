@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Детали смены - CampManager</title>
+    <link rel="stylesheet" href="session-details.css">
+</head>
+<body>
+    <header>
+        <h1>Детали смены</h1>
+        <nav>
+            <ul>
+                <li><a href="../MainPage/main.html">Главная</a></li>
+                <li><a href="#" id="logout">Выход</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <section class="session-selector">
+            <h2>Выберите смену</h2>
+            <select id="sessionDropdown">
+                <option value="">-- Выберите смену --</option>
+            </select>
+            <button id="loadSessionBtn">Загрузить детали смены</button>
+        </section>
+        <section id="sessionDetails">
+        </section>
+    </main>
+    <script src="session-details.js"></script>
+</body>
+</html>
