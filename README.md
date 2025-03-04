@@ -86,7 +86,7 @@ dotnet restore
 - Альтернативно:
 Используйте любой другой локальный сервер (например, http-server для Node.js) для раздачи статичных файлов из папки Pages.
   
-- Структура проекта
+## Структура проекта
 ```plaintext
 CampManager
 ├── Controllers
@@ -148,6 +148,6 @@ CampManager
 └── appsettings.json
 ```
 ---
-Контакты
+## Контакты
   Автор: Дмитрий Мишланов
   GitHub: https://github.com/dythell/CampManager
