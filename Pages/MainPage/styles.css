@@ -38,20 +38,23 @@ main {
     border-radius: 8px;
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
     text-align: center;
+    border-radius: 20px;
 }
 
 button {
     padding: 10px 20px;
-    background-color: #007bff;
+    background-color: #28a768;
     color: white;
     border: none;
-    border-radius: 4px;
+    border-radius: 15px;
     cursor: pointer;
     margin: 10px;
+    font-size: 16px;
 }
 
     button:hover {
-        background-color: #0056b3;
+        background-color: #1ad377;
+        transform: scale(1.05);
     }
 
 #eventsSection {
@@ -74,15 +77,15 @@ button {
     .buttons-container button {
         padding: 10px 20px;
         font-size: 16px;
-        background-color: #007bff;
+        background-color: #28a768;
         color: white;
         border: none;
-        border-radius: 4px;
+        border-radius: 15px;
         cursor: pointer;
         transition: background-color 0.3s, transform 0.2s;
     }
 
         .buttons-container button:hover {
-            background-color: #0056b3;
+            background-color: #1ad377;
             transform: scale(1.05);
         }
