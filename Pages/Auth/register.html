@@ -15,12 +15,14 @@
     <div class="container">
         <h2>Регистрация</h2>
         <form id="registerForm">
-
             <label for="registerUsername"></label>
-            <input type="text" id="registerUsername" placeholder="Логин"required>
+            <input type="text" id="registerUsername" placeholder="Логин" required>
 
             <label for="registerPassword"></label>
-            <input type="password" id="registerPassword" placeholder="Пароль"required>
+            <div class="password-wrapper">
+                <input type="password" id="registerPassword" placeholder="Пароль" required>
+                <i class="fas fa-eye" id="togglePassword"></i>
+            </div>
 
             <label for="registerRole"></label>
             <select id="registerRole" required>
@@ -31,22 +33,28 @@
 
             <div id="counselorFields" style="display: none;">
                 <label for="registerSurname"></label>
-                <input type="text" id="registerSurname" class="counselor-form-input"placeholder="Фамилия">
+                <input type="text" id="registerSurname" class="counselor-form-input" placeholder="Фамилия">
 
                 <label for="registerName"></label>
-                <input type="text" id="registerName" class="counselor-form-input"placeholder="Имя">
+                <input type="text" id="registerName" class="counselor-form-input" placeholder="Имя">
 
                 <label for="registerPatronymic"></label>
-                <input type="text" id="registerPatronymic" class="counselor-form-input"placeholder="Отчество">
+                <input type="text" id="registerPatronymic" class="counselor-form-input" placeholder="Отчество">
 
                 <label for="registerPhoneNumber"></label>
-                <input type="text" id="registerPhoneNumber" class="counselor-form-input"placeholder="Телефон">
+                <input type="text" id="registerPhoneNumber" class="counselor-form-input" placeholder="Телефон">
             </div>
 
             <button type="submit">Зарегистрироваться</button>
         </form>
+        <div id="loader" style="display: none; text-align: center; margin-top: 10px;">
+            <span>⏳ Загрузка...</span>
+        </div>
         <p id="registerError" class="error"></p>
-        <p>Уже есть аккаунт? <a href="login.html">Войти</a></p>
+        <div class="auth-prompt">
+            <span>Уже есть аккаунт?</span>
+            <a href="login.html" class="auth-link-btn login-btn">Войти</a>
+        </div>
     </div>
     <script src="register.js"></script>
 </body>

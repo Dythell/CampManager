@@ -1,5 +1,16 @@
 document.addEventListener("DOMContentLoaded", () => {
     const registerForm = document.getElementById("registerForm");
+    const loader = document.getElementById("loader");
+    const registerError = document.getElementById("registerError");
+
+    function showLoader() {
+        loader.style.display = "block";
+    }
+
+    function hideLoader() {
+        loader.style.display = "none";
+    }
+
     if (registerForm) {
         const registerRole = document.getElementById("registerRole");
         const counselorFields = document.getElementById("counselorFields");
@@ -25,13 +36,17 @@ document.addEventListener("DOMContentLoaded", () => {
 
         registerForm.addEventListener("submit", async (event) => {
             event.preventDefault();
+            registerError.innerText = "";
+            showLoader();
+
             const username = document.getElementById("registerUsername").value;
             const password = document.getElementById("registerPassword").value;
             const role = registerRole.value;
 
             const usernameRegex = /^[a-zA-Z0-9_]+$/;
             if (!usernameRegex.test(username)) {
-                document.getElementById("registerError").innerText = "Логин может содержать только латинские буквы, цифры и _";
+                registerError.innerText = "Логин может содержать только латинские буквы, цифры и _";
+                hideLoader();
                 return;
             }
 
@@ -59,11 +74,25 @@ document.addEventListener("DOMContentLoaded", () => {
                     throw new Error(errorData.message || "Ошибка регистрации");
                 }
 
-                alert("Регистрация успешна!");
                 window.location.href = "login.html";
             } catch (error) {
-                document.getElementById("registerError").innerText = error.message;
+                registerError.innerText = error.message;
+            } finally {
+                hideLoader();
             }
         });
     }
+
+    const togglePassword = document.getElementById("togglePassword");
+    const passwordField = document.getElementById("registerPassword");
+
+    if (togglePassword && passwordField) {
+        togglePassword.addEventListener("click", () => {
+            const type = passwordField.getAttribute("type") === "password" ? "text" : "password";
+            passwordField.setAttribute("type", type);
+            togglePassword.classList.toggle("fa-eye");
+            togglePassword.classList.toggle("fa-eye-slash");
+        });
+    }
+    
 });

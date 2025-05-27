@@ -41,9 +41,26 @@ h1 {
 }
 
 h2 {
-    font-family: Verdana   ;
-    margin-bottom: 20px;
+    font-family: Verdana;
+    margin-bottom: 25px;
+    color: #2c3e50;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
 }
+
+h2:before, h2:after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, #28a768);
+}
+
+h2:after {
+    background: linear-gradient(90deg, #28a768, transparent);
+}
+
 
 form {
     font-family: Verdana   ;
@@ -89,4 +106,92 @@ button {
     display: none;
 }
 
+.password-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.password-wrapper input {
+    width: 100%;
+    padding-right: 30px;
+    box-sizing: border-box;
+}
+
+.password-wrapper i {
+    position: absolute;
+    right: 8px;
+    cursor: pointer;
+    color: #666;
+    line-height: 1rem;
+}
+
+
+.auth-link-btn {
+    padding: 8px 16px;
+    background-color: #f4f4f4;
+    color: #28a768;
+    border: 1px solid #28a768;
+    border-radius: 15px;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    font-weight: normal;
+    font-size: 14px;
+    cursor: pointer;
+    display: inline-block;
+    text-align: center;
+}
+
+.auth-link-btn:hover {
+    background-color: #28a768;
+    color: white;
+}
+
+
+.auth-prompt {
+    margin-top: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    font-size: 14px;
+    color: #666;
+}
+
+#registerRole {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 8px;
+    margin-top: 5px;
+    border: 1px solid #ccc;
+    border-radius: 15px;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23666' stroke-width='2'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    background-size: 12px;
+    padding-right: 30px;
+    cursor: pointer;
+}
+
+#counselorFields {
+    display: none;
+    margin-top: 5px;
+}
+
+#counselorFields input {
+    width: 100%;
+    padding: 8px;
+    margin-top: 5px;
+    border: 1px solid #ccc;
+    border-radius: 15px;
+    box-sizing: border-box;
+    font-family: Verdana;
+}
+
+#counselorFields input:last-child {
+    margin-bottom: 0;
+}
 

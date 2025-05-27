@@ -1,8 +1,22 @@
 document.addEventListener("DOMContentLoaded", () => {
     const loginForm = document.getElementById("loginForm");
+    const loader = document.getElementById("loader");
+    const loginError = document.getElementById("loginError");
+
+    function showLoader() {
+        loader.style.display = "block";
+    }
+
+    function hideLoader() {
+        loader.style.display = "none";
+    }
+
     if (loginForm) {
         loginForm.addEventListener("submit", async (event) => {
             event.preventDefault();
+            loginError.innerText = "";
+            showLoader();
+
             const username = document.getElementById("loginUsername").value;
             const password = document.getElementById("loginPassword").value;
 
@@ -20,11 +34,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
                 const data = await response.json();
                 localStorage.setItem("token", data.token);
-                alert("Вход выполнен!");
                 window.location.href = "../MainPage/main.html";
             } catch (error) {
-                document.getElementById("loginError").innerText = error.message;
+                loginError.innerText = error.message;
+            } finally {
+                hideLoader();
             }
         });
     }
+    
 });

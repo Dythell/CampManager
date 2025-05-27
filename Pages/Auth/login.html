@@ -23,9 +23,17 @@
 
             <button type="submit">Войти</button>
         </form>
+        <div id="loader" style="display: none; text-align: center; margin-top: 10px;">
+            <span>⏳ Загрузка...</span>
+        </div>
+
         <p id="loginError" class="error"></p>
-        <p>Нет аккаунта? <a href="register.html">Зарегистрироваться</a></p>
+        <div class="auth-prompt">
+            <span>Нет аккаунта?</span>
+            <a href="register.html" class="auth-link-btn register-btn">Регистрация</a>
+        </div>
     </div>
+
     <script src="login.js"></script>
 </body>
 </html>
