@@ -36,8 +36,41 @@
 
     <section id="eventsSection">
       <h3>Список мероприятий</h3>
-      <ul id="eventsList"></ul>
+      <div id="eventsList" class="cards-container"></div>
     </section>
+
+    <div id="editModal" class="modal">
+      <div class="modal-content">
+        <span id="closeModal" class="close">&times;</span>
+        <h3>Редактировать мероприятие</h3>
+        <form id="editForm">
+          <label>
+            Название:
+            <input type="text" id="editName" />
+          </label>
+          <label>
+            Время:
+            <input type="datetime-local" id="editDateTime" />
+          </label>
+          <label>
+            Статус:
+            <select id="editStatus">
+              <option value="Scheduled">Запланировано</option>
+              <option value="Completed">Завершено</option>
+              <option value="Cancelled">Отменено</option>
+            </select>
+          </label>
+          <label>
+            Вожатый:
+            <select id="editCounselor">
+              <option value="">Не назначен</option>
+            </select>
+          </label>
+          <button type="submit">Сохранить</button>
+        </form>
+      </div>
+    </div>
+
   </main>
 
   <script src="main.js"></script>

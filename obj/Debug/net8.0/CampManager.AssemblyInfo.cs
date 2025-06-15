@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("CampManager")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+0603c8384c59d819fb15516cd93043e85880aa6f")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+90abb19208a5f4f96dda878032f0dd9df53c542e")]
 [assembly: System.Reflection.AssemblyProductAttribute("CampManager")]
 [assembly: System.Reflection.AssemblyTitleAttribute("CampManager")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
