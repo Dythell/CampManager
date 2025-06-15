@@ -119,6 +119,7 @@ namespace CampManager.Controllers
                 return StatusCode(500, new { message = "Ошибка сервера при получении списка мероприятий", error = ex.Message });
             }
         }
+
         [HttpGet("{eventId}")]
         public async Task<IActionResult> GetEventById(int eventId)
         {
@@ -151,5 +152,106 @@ namespace CampManager.Controllers
             }
         }
 
+        [HttpPut("{eventId}")]
+        [Authorize(Roles = "Admin,GAdmin")]
+        public async Task<IActionResult> PutEvent(int eventId, [FromBody] UpdateEventDTO dto)
+        {
+            var existing = await _context.Events.FindAsync(eventId);
+            if (existing == null)
+                return NotFound(new { message = "Мероприятие не найдено" });
+
+            bool isModified = false;
+
+            if (dto.SessionId.HasValue && dto.SessionId.Value != existing.SessionId)
+            {
+                var session = await _context.Sessions.FindAsync(dto.SessionId.Value);
+                if (session == null)
+                    return BadRequest(new { message = "Смена с указанным ID не найдена" });
+
+                existing.SessionId = dto.SessionId.Value;
+                isModified = true;
+            }
+
+            if (dto.CounselorId.HasValue && dto.CounselorId.Value != existing.CounselorId)
+            {
+                var counselor = await _counselorRepository.GetCounselorByUserIdAsync(dto.CounselorId.Value);
+                if (counselor == null)
+                    return BadRequest(new { message = "Указанный вожатый не найден" });
+
+                existing.CounselorId = dto.CounselorId.Value;
+                isModified = true;
+            }
+
+            if (dto.EventTemplateId.HasValue && dto.EventTemplateId.Value != existing.EventTemplateId)
+            {
+                existing.EventTemplateId = dto.EventTemplateId;
+                isModified = true;
+            }
+
+            if (dto.IsCustomEvent.HasValue && dto.IsCustomEvent.Value != existing.IsCustomEvent)
+            {
+                existing.IsCustomEvent = dto.IsCustomEvent.Value;
+                isModified = true;
+            }
+
+            if (dto.CustomName != null && dto.CustomName != existing.CustomName)
+            {
+                existing.CustomName = dto.CustomName;
+                isModified = true;
+            }
+
+            if (dto.Type != null && dto.Type != existing.Type)
+            {
+                existing.Type = dto.Type;
+                isModified = true;
+            }
+
+            if (dto.DateTime.HasValue && dto.DateTime.Value != existing.DateTime)
+            {
+                existing.DateTime = dto.DateTime.Value;
+                isModified = true;
+            }
+
+            if (dto.Status != null && dto.Status != existing.Status)
+            {
+                existing.Status = dto.Status;
+                isModified = true;
+            }
+
+            if (!isModified)
+                return BadRequest(new { message = "Нет изменений для сохранения" });
+
+            try
+            {
+                await _context.SaveChangesAsync();
+                return Ok(new { message = "Мероприятие обновлено", existing });
+            }
+            catch (DbUpdateException dbEx)
+            {
+                return BadRequest(new { message = "Ошибка при сохранении изменений", error = dbEx.Message });
+            }
+        }
+
+
+        [HttpDelete("{eventId}")]
+        [Authorize(Roles = "Admin,GAdmin")]
+        public async Task<IActionResult> DeleteEvent(int eventId)
+        {
+            try
+            {
+                var existing = await _context.Events.FindAsync(eventId);
+                if (existing == null)
+                    return NotFound(new { message = "Мероприятие не найдено" });
+
+                _context.Events.Remove(existing);
+                await _eventRepository.SaveChangesAsync();
+
+                return Ok(new { message = "Мероприятие удалено" });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { message = "Ошибка сервера при удалении мероприятия", error = ex.Message });
+            }
+        }
     }
 }

@@ -22,9 +22,26 @@ namespace CampManager.Repositories
                 .ToListAsync();
         }
 
+        public async Task<Group?> GetGroupByIdAsync(int id)
+            => await _context.Groups
+                .Include(g => g.SessionCounselor)
+                    .ThenInclude(sc => sc.Counselor)
+                .FirstOrDefaultAsync(g => g.Group_Id == id);
+
         public async Task AddGroupAsync(Group group)
         {
             await _context.Groups.AddAsync(group);
+        }
+
+        public Task UpdateGroupAsync(Group group)
+        {
+            _context.Groups.Update(group);
+            return Task.CompletedTask;
+        }
+        public Task DeleteGroupAsync(Group group)
+        {
+            _context.Groups.Remove(group);
+            return Task.CompletedTask;
         }
 
         public async Task SaveChangesAsync()

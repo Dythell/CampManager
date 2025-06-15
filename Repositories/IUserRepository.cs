@@ -9,6 +9,8 @@ namespace CampManager.Repositories
         Task<User> GetUserByIdAsync(int userId);
         Task<bool> UserExistsAsync(string username);
         Task AddUserAsync(User user);
+        Task UpdateUserAsync(User user);
+        Task DeleteUserAsync(User user);
         Task SaveChangesAsync();
         Task<User> GetUserWithCounselorAsync(int userId);
     }

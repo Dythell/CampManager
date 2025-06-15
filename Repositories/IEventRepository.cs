@@ -7,6 +7,8 @@ namespace CampManager.Repositories
     {
         Task AddEventAsync(Event ev);
         Task<IEnumerable<Event>> GetAllEventsAsync();
+        Task UpdateEventAsync(Event ev);
+        Task DeleteEventAsync(Event ev);
         Task SaveChangesAsync();
     }
 }

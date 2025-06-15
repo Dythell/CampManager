@@ -13,9 +13,25 @@ public class EventTemplateRepository : IEventTemplateRepository
         return await _context.EventTemplates.ToListAsync();
     }
 
+    public async Task<EventTemplate?> GetTemplateByIdAsync(int id)
+    {
+        return await _context.EventTemplates.FindAsync(id);
+    }
     public async Task AddTemplateAsync(EventTemplate template)
     {
         await _context.EventTemplates.AddAsync(template);
+    }
+
+    public Task UpdateTemplateAsync(EventTemplate template)
+    {
+        _context.EventTemplates.Update(template);
+        return Task.CompletedTask;
+    }
+
+    public Task DeleteTemplateAsync(EventTemplate template)
+    {
+        _context.EventTemplates.Remove(template);
+        return Task.CompletedTask;
     }
 
     public async Task SaveChangesAsync()

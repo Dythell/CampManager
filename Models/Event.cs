@@ -8,7 +8,7 @@ public class Event
     public string Type { get; set; }  // "Спортивное", "Творческое", "Общелагерное"
     public DateTime DateTime { get; set; }
     public string Status { get; set; }  // "Запланировано", "Выполнено", "Отменено"
-    public int CounselorId { get; set; } // Ответственный вожатый
+    public int? CounselorId { get; set; } // Ответственный вожатый
 
     public Session Session { get; set; }
     public Counselor Counselor { get; set; }

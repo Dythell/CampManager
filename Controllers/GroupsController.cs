@@ -87,5 +87,93 @@ namespace CampManager.Controllers
 
             return Ok(new { message = "Отряд создан успешно", groupId = group.Group_Id });
         }
+
+        [HttpPut("{id}")]
+        [Authorize(Roles = "Admin,GAdmin")]
+        public async Task<IActionResult> PutGroup(int id, [FromBody] UpdateGroupDTO dto)
+        {
+            var existing = await _groupRepository.GetGroupByIdAsync(id);
+            if (existing == null)
+                return NotFound(new { message = "Отряд не найден" });
+
+            bool isModified = false;
+
+            if (dto.Name != null && dto.Name != existing.Name)
+            {
+                if (string.IsNullOrWhiteSpace(dto.Name))
+                    return BadRequest(new { message = "Название не может быть пустым" });
+
+                existing.Name = dto.Name;
+                isModified = true;
+            }
+
+            if (dto.Number.HasValue && dto.Number.Value != existing.Number)
+            {
+                existing.Number = dto.Number.Value;
+                isModified = true;
+            }
+
+            var newSessionId = dto.SessionId ?? existing.SessionId;
+            var newCounselorId = dto.CounselorId ?? existing.SessionCounselor.CounselorId;
+            if (newSessionId != existing.SessionId || newCounselorId != existing.SessionCounselor.CounselorId)
+            {
+                var session = await _context.Sessions.FindAsync(newSessionId);
+                if (session == null)
+                    return BadRequest(new { message = $"Смена с ID={newSessionId} не найдена" });
+
+                var counselor = await _context.Counselors.FindAsync(newCounselorId);
+                if (counselor == null)
+                    return BadRequest(new { message = $"Вожатый с ID={newCounselorId} не найден" });
+
+                // Находим ор создаём связь в табл SessionCounselor
+                var sc = await _context.SessionCounselors
+                    .FirstOrDefaultAsync(x => x.SessionId == newSessionId && x.CounselorId == newCounselorId);
+                if (sc == null)
+                {
+                    sc = new SessionCounselor { SessionId = newSessionId, CounselorId = newCounselorId };
+                    _context.SessionCounselors.Add(sc);
+                    await _context.SaveChangesAsync();
+                }
+
+                existing.SessionId = newSessionId;
+                existing.SessionCounselor_Id = sc.SessionCounselor_Id;
+                isModified = true;
+            }
+
+            if (!isModified)
+                return BadRequest(new { message = "Нет изменений для сохранения" });
+
+            try
+            {
+                await _groupRepository.UpdateGroupAsync(existing);
+                await _groupRepository.SaveChangesAsync();
+                return Ok(new { message = "Отряд успешно обновлён", group = existing });
+            }
+            catch
+            {
+                return StatusCode(500, new { message = "Ошибка при сохранении изменений" });
+            }
+        }
+
+
+        [HttpDelete("{id}")]
+        [Authorize(Roles = "Admin,GAdmin")]
+        public async Task<IActionResult> DeleteGroup(int id)
+        {
+            var existing = await _groupRepository.GetGroupByIdAsync(id);
+            if (existing == null)
+                return NotFound(new { message = "Отряд не найден" });
+
+            try
+            {
+                await _groupRepository.DeleteGroupAsync(existing);
+                await _groupRepository.SaveChangesAsync();
+                return Ok(new { message = "Отряд успешно удалён" });
+            }
+            catch
+            {
+                return StatusCode(500, new { message = "Ошибка при удалении отряда" });
+            }
+        }
     }
 }

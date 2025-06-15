@@ -16,9 +16,26 @@ public class SessionRepository : ISessionRepository
         return await _context.Sessions.ToListAsync();
     }
 
+    public async Task<Session?> GetSessionByIdAsync(int id)
+    {
+        return await _context.Sessions.FindAsync(id);
+    }
+
     public async Task AddSessionAsync(Session session)
     {
         await _context.Sessions.AddAsync(session);
+    }
+
+    public Task UpdateSessionAsync(Session session)
+    {
+        _context.Sessions.Update(session);
+        return Task.CompletedTask;
+    }
+
+    public Task DeleteSessionAsync(Session session)
+    {
+        _context.Sessions.Remove(session);
+        return Task.CompletedTask;
     }
 
     public async Task SaveChangesAsync()

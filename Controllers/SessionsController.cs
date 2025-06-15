@@ -128,5 +128,85 @@ namespace CampManager.Controllers
             return Ok(result);
         }
 
+        [HttpPut("{id}")]
+        [Authorize(Roles = "Admin,GAdmin")]
+        public async Task<IActionResult> PutSession(int id, [FromBody] UpdateSessionDTO dto)
+        {
+            var existing = await _sessionRepository.GetSessionByIdAsync(id);
+            if (existing == null)
+                return NotFound(new { message = "Смена не найдена" });
+
+            bool isModified = false;
+
+            if (dto.Number.HasValue && dto.Number.Value != existing.Number)
+            {
+                if (dto.Number.Value <= 0)
+                    return BadRequest(new { message = "Номер смены должен быть положительным" });
+
+                existing.Number = dto.Number.Value;
+                isModified = true;
+            }
+
+            if (dto.Type != null && dto.Type != existing.Type)
+            {
+                if (string.IsNullOrWhiteSpace(dto.Type))
+                    return BadRequest(new { message = "Тип смены не может быть пустым" });
+
+                existing.Type = dto.Type;
+                isModified = true;
+            }
+
+            if (dto.Year.HasValue && dto.Year.Value != existing.Year)
+            {
+                if (dto.Year.Value < 2000 || dto.Year.Value > 2100)
+                    return BadRequest(new { message = "Год указан некорректно" });
+
+                existing.Year = dto.Year.Value;
+                isModified = true;
+            }
+
+            if (dto.Season != null && dto.Season != existing.Season)
+            {
+                if (string.IsNullOrWhiteSpace(dto.Season))
+                    return BadRequest(new { message = "Сезон не может быть пустым" });
+
+                existing.Season = dto.Season;
+                isModified = true;
+            }
+
+            if (!isModified)
+                return BadRequest(new { message = "Нет изменений для сохранения" });
+
+            try
+            {
+                await _sessionRepository.UpdateSessionAsync(existing);
+                await _sessionRepository.SaveChangesAsync();
+                return Ok(new { message = "Смена успешно обновлена", session = existing });
+            }
+            catch
+            {
+                return StatusCode(500, new { message = "Ошибка при сохранении изменений" });
+            }
+        }
+
+        [HttpDelete("{id}")]
+        [Authorize(Roles = "Admin,GAdmin")]
+        public async Task<IActionResult> DeleteSession(int id)
+        {
+            var existing = await _sessionRepository.GetSessionByIdAsync(id);
+            if (existing == null)
+                return NotFound(new { message = "Смена не найдена" });
+
+            try
+            {
+                await _sessionRepository.DeleteSessionAsync(existing);
+                await _sessionRepository.SaveChangesAsync();
+                return Ok(new { message = "Смена успешно удалена" });
+            }
+            catch
+            {
+                return StatusCode(500, new { message = "Ошибка при удалении смены" });
+            }
+        }
     }
 }

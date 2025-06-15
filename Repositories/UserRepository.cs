@@ -32,6 +32,18 @@ namespace CampManager.Repositories
             await _context.Users.AddAsync(user);
         }
 
+        public Task UpdateUserAsync(User user)
+        {
+            _context.Users.Update(user);
+            return Task.CompletedTask;
+        }
+
+        public Task DeleteUserAsync(User user)
+        {
+            _context.Users.Remove(user);
+            return Task.CompletedTask;
+        }
+
         public async Task SaveChangesAsync()
         {
             await _context.SaveChangesAsync();

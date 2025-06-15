@@ -25,6 +25,16 @@ namespace CampManager.Repositories
                 .ToListAsync();
         }
 
+        public async Task UpdateEventAsync(Event ev)
+        {
+            _context.Events.Update(ev);
+        }
+
+        public async Task DeleteEventAsync(Event ev)
+        {
+            _context.Events.Remove(ev);
+        }
+
         public async Task SaveChangesAsync()
         {
             await _context.SaveChangesAsync();
