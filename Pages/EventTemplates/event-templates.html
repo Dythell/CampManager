@@ -3,38 +3,56 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Шаблоны мероприятий</title>
+    <title>Шаблоны мероприятий - CampManager</title>
     <link rel="icon" href="https://localhost:7060/pages/galstuk.png" type="image/png">
     <link rel="stylesheet" href="event-templates.css">
-    <script defer src="event-templates.js"></script>
 </head>
 <body>
-    <h1>Шаблоны мероприятий</h1>
-    <nav>
-        <ul>
-            <li><a href="../MainPage/main.html">Главная</a></li>
-            <li><a href="#" id="logout">Выход</a></li>
-        </ul>
-    </nav>
+    <header>
+        <h1>Шаблоны мероприятий</h1>
+        <nav>
+            <ul>
+                <li><a href="../MainPage/main.html">Главная</a></li>
+                <li><a href="#" id="logout">Выход</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <div class="container">
+            <h2>Добавить новый шаблон</h2>
+            <form id="templateForm">
+                <label for="name">Название:</label>
+                <input type="text" id="name" required>
 
-    <ul id="templateList"></ul>
+                <label for="type">Тип:</label>
+                <select id="type" required>
+                    <option value="">-- Выберите тип --</option>
+                    <option value="Спортивное">Спортивное</option>
+                    <option value="Творческое">Творческое</option>
+                    <option value="Общелагерное">Общелагерное</option>
+                </select>
 
-    <h2>Добавить новый шаблон</h2>
-    <form id="templateForm">
-        <label for="name">Название:</label>
-        <input type="text" id="name" required>
+                <label for="description">Описание:</label>
+                <textarea id="description" rows="4"></textarea>
 
-        <label for="type">Тип:</label>
-        <select id="type" required>
-            <option value="Спортивное">Спортивное</option>
-            <option value="Творческое">Творческое</option>
-            <option value="Общелагерное">Общелагерное</option>
-        </select>
+                <button type="submit">Создать шаблон</button>
+            </form>
+            <p id="templateError" class="error"></p>
 
-        <label for="description">Описание:</label>
-        <textarea id="description"></textarea>
-
-        <button type="submit">Создать</button>
-    </form>
+            <h2>Список шаблонов</h2>
+            <table id="templateTable">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Название</th>
+                        <th>Тип</th>
+                        <th>Описание</th>
+                    </tr>
+                </thead>
+                <tbody id="templateList"></tbody>
+            </table>
+        </div>
+    </main>
+    <script defer src="event-templates.js"></script>
 </body>
 </html>

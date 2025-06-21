@@ -1,32 +1,47 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Профиль - CampManager</title>
-    <link rel="icon" href="https://localhost:7060/pages/galstuk.png" type="image/png">
-    <link rel="stylesheet" href="profile.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Профиль – CampManager</title>
+  <link rel="icon" href="https://localhost:7060/pages/galstuk.png"/>
+  <link rel="stylesheet" href="profile.css"/>
 </head>
 <body>
-    <header>
-        <h1>Профиль пользователя</h1>
-        <nav>
-            <ul>
-                <li><a href="../MainPage/main.html">Главная</a></li>
-                <li><a href="#" id="logout">Выход</a></li>
-            </ul>
-        </nav>
-    </header>
-    <main>
-        <div id="profile-info">
-            <h2>Данные профиля</h2>
-            <p><strong>Имя:</strong> <span id="userName"></span></p>
-            <p><strong>Фамилия:</strong> <span id="userSurname"></span></p>
-            <p><strong>Отчество:</strong> <span id="userPatronymic"></span></p>
-            <p><strong>Телефон:</strong> <span id="userPhone"></span></p>
-            <p><strong>Роль:</strong> <span id="role"></span></p>
-        </div>
-    </main>
-    <script src="profile.js"></script>
+  <header>
+    <h1>Профиль</h1>
+    <nav>
+      <ul>
+        <li><a href="../MainPage/main.html">Главная</a></li>
+        <li><a href="#" id="logout">Выход</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main class="page-container">
+    <div class="profile-card">
+      <div class="avatar">
+        <img src="https://localhost:7060/pages/avatar.png" alt="Аватар пользователя">
+      </div>
+      <h2>Мой профиль</h2>
+      <div class="profile-details">
+        <div class="detail-label">Фамилия:</div>
+        <div class="detail-value" id="userSurname"></div>
+
+        <div class="detail-label">Имя:</div>
+        <div class="detail-value" id="userName"></div>
+
+        <div class="detail-label">Отчество:</div>
+        <div class="detail-value" id="userPatronymic"></div>
+
+        <div class="detail-label">Телефон:</div>
+        <div class="detail-value" id="userPhone"></div>
+
+        <div class="detail-label">Роль:</div>
+        <div class="detail-value" id="role"></div>
+      </div>
+    </div>
+  </main>
+  <script src="profile.js"></script>
 </body>
 </html>

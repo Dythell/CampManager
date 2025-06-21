@@ -127,6 +127,7 @@ namespace CampManager.Controllers
             {
                 var eventItem = await _context.Events
                     .Include(e => e.EventTemplate)
+                    .Include(e => e.Counselor)
                     .Where(e => e.Event_Id == eventId)
                     .Select(e => new
                     {
@@ -135,14 +136,22 @@ namespace CampManager.Controllers
                         EventName = e.IsCustomEvent ? e.CustomName : e.EventTemplate.Name,
                         e.Type,
                         e.DateTime,
-                        e.Status
+                        e.Status,
+                        e.CounselorId,
+                        Counselor = e.Counselor == null
+                            ? null
+                            : new
+                            {
+                                e.Counselor.Counselor_Id,
+                                e.Counselor.Surname,
+                                e.Counselor.Name,
+                                e.Counselor.Patronymic
+                            }
                     })
                     .FirstOrDefaultAsync();
 
                 if (eventItem == null)
-                {
                     return NotFound(new { message = "Мероприятие не найдено" });
-                }
 
                 return Ok(eventItem);
             }
@@ -152,16 +161,19 @@ namespace CampManager.Controllers
             }
         }
 
+
         [HttpPut("{eventId}")]
         [Authorize(Roles = "Admin,GAdmin")]
         public async Task<IActionResult> PutEvent(int eventId, [FromBody] UpdateEventDTO dto)
         {
+            // Находим существующее мероприятие
             var existing = await _context.Events.FindAsync(eventId);
             if (existing == null)
                 return NotFound(new { message = "Мероприятие не найдено" });
 
             bool isModified = false;
 
+            // Проверка смены
             if (dto.SessionId.HasValue && dto.SessionId.Value != existing.SessionId)
             {
                 var session = await _context.Sessions.FindAsync(dto.SessionId.Value);
@@ -219,7 +231,13 @@ namespace CampManager.Controllers
             }
 
             if (!isModified)
-                return BadRequest(new { message = "Нет изменений для сохранения" });
+            {
+                return Ok(new
+                {
+                    message = "Изменений не было. Текущее состояние мероприятия:",
+                    existing
+                });
+            }
 
             try
             {

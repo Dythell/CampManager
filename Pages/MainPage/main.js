@@ -20,17 +20,21 @@ document.addEventListener("DOMContentLoaded", async () => {
     const pr = await fetch("https://localhost:7060/api/profile", {
       headers: { "Authorization": `Bearer ${token}` }
     });
-    if (!pr.ok) throw "";
+    if (!pr.ok) throw new Error();
     const data = await pr.json();
     role = data.role;
     if (role === "Admin" || role === "GAdmin") {
       createSessionBtn.style.display = "inline-block";
       createChildBtn.style.display   = "inline-block";
       manageGroupsBtn.style.display  = "inline-block";
+    } else {
+      createSessionBtn.style.display = "none";
+      createChildBtn.style.display   = "none";
+      manageGroupsBtn.style.display  = "none";
     }
   } catch {
-    createSessionBtn.style.display =
-    createChildBtn.style.display   =
+    createSessionBtn.style.display = "none";
+    createChildBtn.style.display   = "none";
     manageGroupsBtn.style.display  = "none";
   }
 
@@ -41,6 +45,16 @@ document.addEventListener("DOMContentLoaded", async () => {
   createSessionBtn.onclick = () => window.location.href = "../Sessions/sessions.html";
   createChildBtn.onclick   = () => window.location.href = "../CreateChild/create-child.html";
   manageGroupsBtn.onclick  = () => window.location.href = "../Groups/groups.html";
+
+  let sessions = [];
+  try {
+    const sres = await fetch("https://localhost:7060/api/sessions", {
+      headers: { "Authorization": `Bearer ${token}` }
+    });
+    if (sres.ok) sessions = await sres.json();
+  } catch {
+    console.warn("Не удалось загрузить смены");
+  }
 
   let currentEditId = null;
   const modal        = document.getElementById("editModal");
@@ -56,28 +70,27 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   let counselorsList = [];
   try {
-    const resp = await fetch("https://localhost:7060/api/counselors", {
+    const cres = await fetch("https://localhost:7060/api/counselors", {
       headers: { "Authorization": `Bearer ${token}` }
     });
-    if (!resp.ok) throw new Error("Не удалось загрузить список вожатых");
-    counselorsList = await resp.json();
-  } catch (err) {
-    console.warn(err);
+    if (cres.ok) counselorsList = await cres.json();
+  } catch {
+    console.warn("Не удалось загрузить вожатых");
   }
 
   editForm.onsubmit = async e => {
     e.preventDefault();
     const payload = {};
-    if (editName.value.trim())       payload.CustomName  = editName.value.trim();
-    if (editDateTime.value)          payload.DateTime    = new Date(editDateTime.value).toISOString();
-    if (editStatus.value)            payload.Status      = editStatus.value;
+    if (editName.value.trim()) payload.CustomName = editName.value.trim();
+    if (editDateTime.value)    payload.DateTime   = new Date(editDateTime.value).toISOString();
+    if (editStatus.value)      payload.Status     = editStatus.value;
 
     const sel = editCounselor.value;
     if (sel === "__KEEP__") {
     } else if (sel === "") {
       payload.CounselorId = null;
     } else {
-      payload.CounselorId = parseInt(sel);
+      payload.CounselorId = parseInt(sel, 10);
     }
 
     const res = await fetch(`https://localhost:7060/api/events/${currentEditId}`, {
@@ -89,9 +102,6 @@ document.addEventListener("DOMContentLoaded", async () => {
       body: JSON.stringify(payload)
     });
     if (res.ok) {
-      const card = document.querySelector(`.event-card[data-id="${currentEditId}"]`);
-      if (payload.CustomName) card.querySelector("h4").textContent = payload.CustomName;
-      if (payload.DateTime)   card.querySelector("p").textContent  = new Date(payload.DateTime).toLocaleString();
       modal.style.display = "none";
     } else {
       alert("Ошибка при сохранении");
@@ -99,11 +109,11 @@ document.addEventListener("DOMContentLoaded", async () => {
   };
 
   try {
-    const res = await fetch("https://localhost:7060/api/events", {
+    const eres = await fetch("https://localhost:7060/api/events", {
       headers: { "Authorization": `Bearer ${token}` }
     });
-    if (!res.ok) throw new Error("Не удалось загрузить мероприятия");
-    const events = await res.json();
+    if (!eres.ok) throw new Error("Не удалось загрузить мероприятия");
+    const events = await eres.json();
     eventsList.innerHTML = "";
 
     events.forEach(ev => {
@@ -113,8 +123,16 @@ document.addEventListener("DOMContentLoaded", async () => {
 
       const title = document.createElement("h4");
       title.textContent = ev.eventName || "Без названия";
+
       const time = document.createElement("p");
       time.textContent = new Date(ev.dateTime).toLocaleString();
+
+      const session = sessions.find(s => s.session_Id === ev.sessionId);
+      const sessInfo = document.createElement("p");
+      sessInfo.className = "session-info";
+      sessInfo.textContent = session
+        ? `Смена: №${session.number}, ${session.season} ${session.year}`
+        : "Смена: не указана";
 
       const btnContainer = document.createElement("div");
       btnContainer.className = "card-buttons";
@@ -129,36 +147,21 @@ document.addEventListener("DOMContentLoaded", async () => {
         editBtn.textContent = "Ред.";
         editBtn.onclick = () => {
           currentEditId = ev.event_Id;
-
           editName.value = ev.eventName || "";
-          const dt       = new Date(ev.dateTime);
-          const tzOffset = dt.getTimezoneOffset() * 60000;
-          editDateTime.value = new Date(dt - tzOffset).toISOString().slice(0,16);
-          editStatus.value   = ev.status;
+          const dt = new Date(ev.dateTime);
+          const tz = dt.getTimezoneOffset() * 60000;
+          editDateTime.value = new Date(dt - tz).toISOString().slice(0,16);
+          editStatus.value = ev.status;
 
-          editCounselor.innerHTML = "";
-          const keepOpt = document.createElement("option");
-          keepOpt.value = "__KEEP__";
-          keepOpt.textContent = "Оставить текущего";
-          editCounselor.appendChild(keepOpt);
-
-          const noneOpt = document.createElement("option");
-          noneOpt.value = "";
-          noneOpt.textContent = "Не назначен";
-          editCounselor.appendChild(noneOpt);
 
           counselorsList.forEach(c => {
             const opt = document.createElement("option");
             opt.value = c.counselor_Id;
-            opt.textContent = `${c.surname} ${c.name}${c.patronymic ? ' ' + c.patronymic : ''}`;
+            opt.textContent = `${c.surname} ${c.name}` + (c.patronymic ? ` ${c.patronymic}` : "");
             editCounselor.appendChild(opt);
           });
 
-          // выбратт по умолчанию если был назначен keep иначе отправлем none
-          editCounselor.value = ev.counselorId != null
-            ? "__KEEP__"
-            : "";
-
+          editCounselor.value = ev.counselorId != null ? "__KEEP__" : "";
           modal.style.display = "block";
         };
         btnContainer.appendChild(editBtn);
@@ -177,10 +180,11 @@ document.addEventListener("DOMContentLoaded", async () => {
         btnContainer.appendChild(delBtn);
       }
 
-      card.append(title, time, btnContainer);
+      card.append(title, time, sessInfo, btnContainer);
       eventsList.appendChild(card);
     });
   } catch (err) {
+    console.error(err);
     eventsList.innerHTML = `<p class="error">Ошибка: ${err.message}</p>`;
   }
 });

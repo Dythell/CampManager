@@ -34,7 +34,15 @@
                 <input type="date" id="birthYear" required>
 
                 <label for="parentNumber">Контакт родителя:</label>
-                <input type="text" id="parentNumber" required>
+                <input
+                  type="tel"
+                  id="parentNumber"
+                  placeholder="+7 (___) ___-__-__"
+                  pattern="^(\+7|8)\d{10}$"
+                  title="Введите номер в формате +71234567890 или 81234567890"
+                  maxlength="12"
+                  required
+                >
 
                 <label for="groupSelect">Выберите отряд:</label>
                 <select id="groupSelect" required>

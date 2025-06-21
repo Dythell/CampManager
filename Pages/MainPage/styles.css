@@ -213,3 +213,34 @@ button:hover {
   background-color: #1fa45e;
   transform: scale(1.02);
 }
+
+.site-footer {
+  background-color: #333;
+  color: #fff;
+  padding: 12px 20px;
+  text-align: center;
+  margin-top: 40px;
+}
+
+.site-footer .footer-content {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.site-footer .label-github {
+  font-weight: bold;
+  color: #fff;
+}
+
+.site-footer .github-icon {
+  width: 24px;
+  height: 24px;
+  filter: invert(1);
+  transition: filter 0.2s;
+}
+
+.site-footer .github-icon:hover {
+  filter: invert(0.7);
+}
+

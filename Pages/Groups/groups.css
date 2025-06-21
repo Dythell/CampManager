@@ -45,7 +45,12 @@ nav ul {
 }
 
 
-h1, h2 {
+h1 {
+    text-align: center;
+    color: #ffffff;
+}
+
+h2 {
     text-align: center;
     color: #333;
 }

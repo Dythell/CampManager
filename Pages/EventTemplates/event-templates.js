@@ -17,12 +17,26 @@ document.addEventListener("DOMContentLoaded", async () => {
             if (!response.ok) throw new Error("Ошибка загрузки шаблонов");
 
             const templates = await response.json();
-            templateList.innerHTML = "";
-            templates.forEach(template => {
-                const li = document.createElement("li");
-                li.textContent = `${template.name} (${template.type}) - ${template.defaultDescription || "Нет описания"}`;
-                templateList.appendChild(li);
-            });
+templateList.innerHTML = "";
+templates.forEach(template => {
+    const tr = document.createElement("tr");
+
+    const tdId = document.createElement("td");
+    tdId.textContent = template.eventTemplate_Id || "-";
+
+    const tdName = document.createElement("td");
+    tdName.textContent = template.name;
+
+    const tdType = document.createElement("td");
+    tdType.textContent = template.type;
+
+    const tdDesc = document.createElement("td");
+    tdDesc.textContent = template.defaultDescription || "—";
+
+    tr.append(tdId, tdName, tdType, tdDesc);
+    templateList.appendChild(tr);
+});
+
         } catch (error) {
             console.error("Ошибка:", error);
             templateList.innerHTML = `<li>Ошибка загрузки шаблонов</li>`;

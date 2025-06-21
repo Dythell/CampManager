@@ -86,3 +86,40 @@ button {
     color: red;
     font-weight: bold;
 }
+/* Таблица списка смен */
+.session-list table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+.session-list th,
+.session-list td {
+    padding: 10px;
+    border: 1px solid #ddd;
+    text-align: center;
+}
+
+.session-list th {
+    background-color: #333;
+    color: #fff;
+    font-weight: normal;
+}
+
+.session-list tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.session-list tr:hover {
+    background-color: #f1f1f1;
+}
+
+/* Если места в ячейке мало, переносим текст */
+.session-list td {
+    word-wrap: break-word;
+}
+
+/* Центрируем заголовок секции */
+.session-list h2 {
+    text-align: center;
+}

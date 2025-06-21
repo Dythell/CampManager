@@ -16,17 +16,23 @@ nav ul {
     list-style: none;
     padding: 0;
     margin: 0;
+    display: flex;
+    justify-content: center;
+    gap: 15px;
 }
 
-    nav ul li {
-        display: inline;
-        margin: 0 10px;
-    }
+nav ul li a {
+    text-decoration: none;
+    color: #fff;
+    background-color: #007bff;
+    padding: 8px 16px;
+    border-radius: 4px;
+    transition: background-color 0.3s;
+}
 
-        nav ul li a {
-            color: white;
-            text-decoration: none;
-        }
+nav ul li a:hover {
+    background-color: #0056b3;
+}
 
 main {
     max-width: 800px;
@@ -42,6 +48,12 @@ main {
     text-align: center;
 }
 
+.detail-line {
+    margin: 6px 0;
+    font-style: italic;
+    color: #555;
+}
+
 #commentsSection {
     margin-top: 20px;
 }
@@ -51,10 +63,10 @@ main {
     padding: 0;
 }
 
-    #commentsList li {
-        padding: 5px;
-        border-bottom: 1px solid #ddd;
-    }
+#commentsList li {
+    padding: 5px;
+    border-bottom: 1px solid #ddd;
+}
 
 #newCommentSection {
     margin-top: 20px;
@@ -78,9 +90,9 @@ button {
     cursor: pointer;
 }
 
-    button:hover {
-        background-color: #218838;
-    }
+button:hover {
+    background-color: #218838;
+}
 
 .error {
     color: red;

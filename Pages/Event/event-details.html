@@ -1,45 +1,47 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Детали мероприятия - CampManager</title>
-    <link rel="icon" href="https://localhost:7060/pages/galstuk.png" type="image/png">
-    <link rel="stylesheet" href="event-details.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/7.0.5/signalr.min.js"
-     crossorigin="anonymous"
-        referrerpolicy="no-referrer">
-    </script>
-
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Детали мероприятия – CampManager</title>
+  <link rel="icon" href="https://localhost:7060/pages/galstuk.png" type="image/png">
+  <link rel="stylesheet" href="event-details.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/7.0.5/signalr.min.js"
+          crossorigin="anonymous"
+          referrerpolicy="no-referrer">
+  </script>
 </head>
 <body>
-    <header>
-        <h1>Детали мероприятия</h1>
-        <nav>
-            <ul>
-                <li><a href="../MainPage/main.html">Главная</a></li>
-                <li><a href="#" id="logout">Выход</a></li>
-            </ul>
-        </nav>
-    </header>
-    <main>
-        <section id="eventDetails">
-            <h2 id="eventTitle">Мероприятие</h2>
-            <p id="eventDateTime"></p>
-        </section>
+  <header>
+    <h1>Детали мероприятия</h1>
+    <nav>
+      <ul>
+        <li><a href="../MainPage/main.html">Главная</a></li>
+        <li><a href="#" id="logout">Выход</a></li>
+      </ul>
+    </nav>
+  </header>
 
-        <section id="commentsSection">
-            <h3>Комментарии</h3>
-            <ul id="commentsList">
-            </ul>
-        </section>
+  <main>
+    <section id="eventDetails">
+      <h2 id="eventTitle">Мероприятие</h2>
+      <p id="eventDateTime" class="detail-line"></p>
+      <p id="eventSession"   class="detail-line"></p>
+      <p id="eventCounselor" class="detail-line"></p>
+    </section>
 
-        <section id="newCommentSection">
-            <h3>Оставить комментарий</h3>
-            <textarea id="commentMessage" placeholder="Ваш комментарий"></textarea>
-            <button id="sendCommentBtn">Отправить</button>
-        </section>
-    </main>
-    <script src="event-details.js"></script>
+    <section id="commentsSection">
+      <h3>Комментарии</h3>
+      <ul id="commentsList"></ul>
+    </section>
+
+    <section id="newCommentSection">
+      <h3>Оставить комментарий</h3>
+      <textarea id="commentMessage" placeholder="Ваш комментарий"></textarea>
+      <button id="sendCommentBtn">Отправить</button>
+    </section>
+  </main>
+
+  <script src="event-details.js"></script>
 </body>
 </html>

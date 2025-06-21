@@ -24,7 +24,22 @@ document.addEventListener("DOMContentLoaded", async () => {
         document.getElementById("userSurname").textContent = userData.surname || "";
         document.getElementById("userPatronymic").textContent = userData.patronymic || "";
         document.getElementById("userPhone").textContent = userData.phoneNumber || "";
-        document.getElementById("role").textContent = userData.role || "";
+
+        let roleText;
+        switch (userData.role) {
+            case "Counselor":
+                roleText = "Вожатый";
+                break;
+            case "Admin":
+                roleText = "Администратор";
+                break;
+            case "GAdmin":
+                roleText = "Главный администратор";
+                break;
+            default:
+                roleText = userData.role;
+        }
+        document.getElementById("role").textContent = roleText;
 
     } catch (error) {
         console.error("Ошибка загрузки профиля:", error);

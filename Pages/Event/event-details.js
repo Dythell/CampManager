@@ -1,10 +1,9 @@
 document.addEventListener("DOMContentLoaded", async () => {
     function getQueryParam(param) {
-        const urlParams = new URLSearchParams(window.location.search);
-        return urlParams.get(param);
+        return new URLSearchParams(window.location.search).get(param);
     }
 
-    const eventId = parseInt(getQueryParam("eventId"));
+    const eventId = parseInt(getQueryParam("eventId"), 10);
     if (!eventId) {
         alert("Мероприятие не определено");
         return;
@@ -17,39 +16,77 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
 
     try {
-        const eventResponse = await fetch(`https://localhost:7060/api/events/${eventId}`, {
-            method: "GET",
-            headers: {
-                "Authorization": `Bearer ${token}`
-            }
+        const evRes = await fetch(`https://localhost:7060/api/events/${eventId}`, {
+            headers: { "Authorization": `Bearer ${token}` }
         });
+        if (!evRes.ok) throw new Error("Не удалось загрузить мероприятие");
+        const ev = await evRes.json();
 
-        if (!eventResponse.ok) throw new Error("Не удалось загрузить данные мероприятия");
-        const eventData = await eventResponse.json();
+        document.getElementById("eventTitle").textContent =
+            ev.eventName || `Мероприятие №${eventId}`;
+        document.getElementById("eventDateTime").textContent =
+            `Дата и время: ${new Date(ev.dateTime).toLocaleString()}`;
 
-        document.getElementById("eventTitle").textContent = eventData.eventName || `Мероприятие №${eventId}`;
-        document.getElementById("eventDateTime").textContent = `Дата и время: ${new Date(eventData.dateTime).toLocaleString()}`;
-
-        const commentsResponse = await fetch(`https://localhost:7060/api/comments?event_Id=${eventId}`, {
-            method: "GET",
-            headers: {
-                "Authorization": `Bearer ${token}`
+        const sessionEl = document.getElementById("eventSession");
+        if (ev.sessionId) {
+            try {
+                const allSRes = await fetch("https://localhost:7060/api/sessions", {
+                    headers: { "Authorization": `Bearer ${token}` }
+                });
+                if (!allSRes.ok) throw new Error();
+                const allSessions = await allSRes.json();
+                const s = allSessions.find(s => s.session_Id === ev.sessionId);
+                if (s) {
+                    sessionEl.textContent = `Смена: №${s.number}, ${s.season} ${s.year}`;
+                } else {
+                    sessionEl.textContent = "Смена: не найдена";
+                }
+            } catch {
+                sessionEl.textContent = "Смена: не удалось загрузить";
             }
-        });
+        } else {
+            sessionEl.textContent = "Смена: не указана";
+        }
 
-        if (!commentsResponse.ok) throw new Error("Не удалось загрузить комментарии");
-        const comments = await commentsResponse.json();
-        const commentsList = document.getElementById("commentsList");
-        commentsList.innerHTML = "";
+        const counEl = document.getElementById("eventCounselor");
+        if (ev.counselorId) {
+            try {
+                const allCRes = await fetch("https://localhost:7060/api/counselors", {
+                    headers: { "Authorization": `Bearer ${token}` }
+                });
+                if (!allCRes.ok) throw new Error();
+                const allCounselors = await allCRes.json();
+                const c = allCounselors.find(c => c.counselor_Id === ev.counselorId);
+                if (c) {
+                    counEl.textContent =
+                        `Ответственный вожатый: ${c.surname} ${c.name}` +
+                        (c.patronymic ? ` ${c.patronymic}` : "");
+                } else {
+                    counEl.textContent = "Ответственный вожатый: не найден";
+                }
+            } catch {
+                counEl.textContent = "Ответственный вожатый: не удалось загрузить";
+            }
+        } else {
+            counEl.textContent = "Ответственный вожатый: не назначен";
+        }
 
-        comments.forEach(comment => {
+        const cmRes = await fetch(
+            `https://localhost:7060/api/comments?event_Id=${eventId}`,
+            { headers: { "Authorization": `Bearer ${token}` } }
+        );
+        if (!cmRes.ok) throw new Error("Не удалось загрузить комментарии");
+        const comments = await cmRes.json();
+        const list = document.getElementById("commentsList");
+        list.innerHTML = "";
+        comments.forEach(c => {
             const li = document.createElement("li");
-            li.textContent = `${comment.displayName} (${new Date(comment.createdAt).toLocaleString()}): ${comment.message}`;
-            commentsList.appendChild(li);
+            li.textContent =
+                `${c.displayName} (${new Date(c.createdAt).toLocaleString()}): ${c.message}`;
+            list.appendChild(li);
         });
-
-    } catch (error) {
-        console.error("Ошибка загрузки данных:", error);
+    } catch (err) {
+        console.error("Ошибка загрузки данных мероприятия:", err);
     }
 
     const connection = new signalR.HubConnectionBuilder()
@@ -58,30 +95,26 @@ document.addEventListener("DOMContentLoaded", async () => {
         })
         .build();
 
-    connection.on("ReceiveComment", (receivedEventId, displayName, message, createdAt) => {
-        if (receivedEventId === eventId) {
+    connection.on("ReceiveComment", (eid, name, msg, at) => {
+        if (eid === eventId) {
             const li = document.createElement("li");
-            li.textContent = `${displayName} (${new Date(createdAt).toLocaleString()}): ${message}`;
+            li.textContent = `${name} (${new Date(at).toLocaleString()}): ${msg}`;
             document.getElementById("commentsList").appendChild(li);
         }
     });
 
     connection.start()
-        .then(() => {
-            console.log("Соединение с CommentHub установлено.");
-            connection.invoke("JoinEventGroup", eventId)
-                .catch(err => console.error("Ошибка при присоединении к группе:", err.toString()));
-        })
-        .catch(err => console.error("Ошибка подключения к CommentHub:", err));
+        .then(() => connection.invoke("JoinEventGroup", eventId))
+        .catch(err => console.error("SignalR ошибка:", err));
 
     document.getElementById("sendCommentBtn").addEventListener("click", async () => {
-        const message = document.getElementById("commentMessage").value;
-        if (!message.trim()) return;
+        const msg = document.getElementById("commentMessage").value.trim();
+        if (!msg) return;
         try {
-            await connection.invoke("SendComment", eventId, message);
+            await connection.invoke("SendComment", eventId, msg);
             document.getElementById("commentMessage").value = "";
-        } catch (err) {
-            console.error("Ошибка отправки комментария:", err);
+        } catch (e) {
+            console.error("Ошибка отправки комментария:", e);
         }
     });
 

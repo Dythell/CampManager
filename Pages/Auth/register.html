@@ -34,16 +34,25 @@
 
             <div id="counselorFields" style="display: none;">
                 <label for="registerSurname"></label>
-                <input type="text" id="registerSurname" class="counselor-form-input" placeholder="Фамилия">
+                <input type="text" id="registerSurname" class="counselor-form-input" placeholder="Фамилия" required>
 
                 <label for="registerName"></label>
-                <input type="text" id="registerName" class="counselor-form-input" placeholder="Имя">
+                <input type="text" id="registerName" class="counselor-form-input" placeholder="Имя" required>
 
                 <label for="registerPatronymic"></label>
-                <input type="text" id="registerPatronymic" class="counselor-form-input" placeholder="Отчество">
+                <input type="text" id="registerPatronymic" class="counselor-form-input" placeholder="Отчество" required>
 
                 <label for="registerPhoneNumber"></label>
-                <input type="text" id="registerPhoneNumber" class="counselor-form-input" placeholder="Телефон">
+                <input
+                  type="tel"
+                  id="registerPhoneNumber"
+                  class="counselor-form-input"
+                  placeholder="+7 (___) ___-__-__"
+                  pattern="^(\+7|8)[0-9]{10}$"
+                  title="Номер в формате +71234567890 или 81234567890"
+                  maxlength="12"
+                  required
+                >
             </div>
 
             <button type="submit">Зарегистрироваться</button>
