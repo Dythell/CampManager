@@ -18,30 +18,39 @@
     </nav>
   </header>
 
-  <main class="page-container">
-    <div class="profile-card">
-      <div class="avatar">
-        <img src="https://localhost:7060/pages/avatar.png" alt="Аватар пользователя">
-      </div>
-      <h2>Мой профиль</h2>
-      <div class="profile-details">
-        <div class="detail-label">Фамилия:</div>
-        <div class="detail-value" id="userSurname"></div>
-
-        <div class="detail-label">Имя:</div>
-        <div class="detail-value" id="userName"></div>
-
-        <div class="detail-label">Отчество:</div>
-        <div class="detail-value" id="userPatronymic"></div>
-
-        <div class="detail-label">Телефон:</div>
-        <div class="detail-value" id="userPhone"></div>
-
-        <div class="detail-label">Роль:</div>
-        <div class="detail-value" id="role"></div>
-      </div>
+<main class="page-container">
+  <div class="profile-card">
+    <div class="avatar">
+      <img src="https://localhost:7060/pages/avatar.png" alt="Аватар пользователя">
     </div>
-  </main>
+    <h2>Мой профиль</h2>
+    <div class="profile-details">
+      <div class="detail-label">Фамилия:</div>
+      <div class="detail-value" id="userSurname"></div>
+
+      <div class="detail-label">Имя:</div>
+      <div class="detail-value" id="userName"></div>
+
+      <div class="detail-label">Отчество:</div>
+      <div class="detail-value" id="userPatronymic"></div>
+
+      <div class="detail-label">Телефон:</div>
+      <div class="detail-value" id="userPhone"></div>
+
+      <div class="detail-label">Роль:</div>
+      <div class="detail-value" id="role"></div>
+    </div>
+
+    <!-- Кнопка подтверждения админов внутри карточки -->
+    <div style="margin-top: 20px;">
+      <a href="../PendingAdmins/pending-admins.html" id="adminApprovalBtn" style="display: none;" class="btn-approve-admins">
+        Подтвердить новых админов
+      </a>
+    </div>
+  </div>
+</main>
+
+
   <script src="profile.js"></script>
 </body>
 </html>

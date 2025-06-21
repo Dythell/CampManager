@@ -1,0 +1,40 @@
+﻿<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>Ожидающие админы - CampManager</title>
+  <link rel="icon" href="https://localhost:7060/pages/galstuk.png" type="image/png">
+  <link rel="stylesheet" href="pending-admins.css">
+</head>
+<body>
+  <header>
+    <h1>Ожидающие подтверждения админы</h1>
+    <nav>
+      <ul>
+        <li><a href="../MainPage/main.html">Главная</a></li>
+        <li><a href="#" id="logout">Выход</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <section class="admin-section">
+      <h2>Неподтверждённые админы</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Логин</th>
+            <th>Подтвердить</th>
+          </tr>
+        </thead>
+        <tbody id="pendingAdminsBody">
+          <tr><td colspan="3">Загрузка...</td></tr>
+        </tbody>
+      </table>
+    </section>
+  </main>
+
+  <script src="pending-admins.js"></script>
+</body>
+</html>

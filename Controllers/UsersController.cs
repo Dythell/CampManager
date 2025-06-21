@@ -1,10 +1,10 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Threading.Tasks;
 using System.Linq;
+using System.Security.Claims;
+using System.Threading.Tasks;
 using CampManager.Repositories;
 using Microsoft.EntityFrameworkCore;
-using System.Security.Claims;
 
 namespace CampManager.Controllers
 {
@@ -21,14 +21,46 @@ namespace CampManager.Controllers
             _context = context;
         }
 
+        [HttpGet("pending-admins")]
+        [Authorize(Roles = "Admin,GAdmin")]
+        public async Task<IActionResult> GetPendingAdmins()
+        {
+            var list = await _context.Users
+                .Where(u => (u.Role == "Admin" || u.Role == "GAdmin") && !u.IsConfirmed)
+                .Select(u => new { u.User_Id, u.Username, u.Role })
+                .ToListAsync();
+
+            return Ok(list);
+        }
+
+        [HttpPut("{id}/confirm-admin")]
+        [Authorize(Roles = "Admin,GAdmin")]
+        public async Task<IActionResult> ConfirmAdmin(int id)
+        {
+            var user = await _userRepo.GetUserByIdAsync(id);
+            if (user == null)
+                return NotFound(new { message = "Пользователь не найден" });
+
+            if (user.Role != "Admin" && user.Role != "GAdmin")
+                return BadRequest(new { message = "Это не администратор" });
+
+            if (user.IsConfirmed)
+                return BadRequest(new { message = "Администратор уже подтверждён" });
+
+            user.IsConfirmed = true;
+            await _userRepo.UpdateUserAsync(user);
+            await _userRepo.SaveChangesAsync();
+
+            return Ok(new { message = "Администратор подтверждён" });
+        }
+
         [HttpPut("me")]
         [Authorize]
         public async Task<IActionResult> UpdateMyUsername([FromBody] UpdateUserDTO dto)
         {
-            if (dto.Username == null || string.IsNullOrWhiteSpace(dto.Username))
+            if (string.IsNullOrWhiteSpace(dto.Username))
                 return BadRequest(new { message = "Имя пользователя не может быть пустым" });
 
-            // получаем свой id из токена
             var userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
             var user = await _userRepo.GetUserByIdAsync(userId);
             if (user == null)
@@ -53,12 +85,12 @@ namespace CampManager.Controllers
         [Authorize(Roles = "Admin,GAdmin")]
         public async Task<IActionResult> Update(int id, [FromBody] UpdateUserDTO dto)
         {
+            if (string.IsNullOrWhiteSpace(dto.Username))
+                return BadRequest(new { message = "Имя пользователя не может быть пустым" });
+
             var user = await _userRepo.GetUserByIdAsync(id);
             if (user == null)
                 return NotFound(new { message = "Пользователь не найден" });
-
-            if (dto.Username == null || string.IsNullOrWhiteSpace(dto.Username))
-                return BadRequest(new { message = "Имя пользователя не может быть пустым" });
 
             var exists = await _context.Users
                 .AnyAsync(u => u.Username == dto.Username && u.User_Id != id);
@@ -83,20 +115,18 @@ namespace CampManager.Controllers
             if (user == null)
                 return NotFound(new { message = "Пользователь не найден" });
 
-            // не тестил ⬇⬇⬇
-            var userComments = _context.Comments.Where(c => c.User_Id == id);
-            _context.Comments.RemoveRange(userComments);
+            var comments = _context.Comments.Where(c => c.User_Id == id);
+            _context.Comments.RemoveRange(comments);
 
-            // если вожатый то нуллим в полях
             if (user.Role == "Counselor")
             {
-                // в мероприяти
-                var events = _context.Events.Where(e => e.CounselorId == id);
-                await events.ForEachAsync(e => e.CounselorId = null);
+                await _context.Events
+                    .Where(e => e.CounselorId == id)
+                    .ForEachAsync(e => e.CounselorId = null);
 
-                // и в сущности вожатого смены
-                var scs = _context.SessionCounselors.Where(sc => sc.CounselorId == id);
-                await scs.ForEachAsync(sc => sc.CounselorId = null);
+                await _context.SessionCounselors
+                    .Where(sc => sc.CounselorId == id)
+                    .ForEachAsync(sc => sc.CounselorId = null);
 
                 await _context.SaveChangesAsync();
             }
@@ -104,7 +134,7 @@ namespace CampManager.Controllers
             await _userRepo.DeleteUserAsync(user);
             await _userRepo.SaveChangesAsync();
 
-            return Ok(new { message = "Пользователь и все его комментарии удалены" });
+            return Ok(new { message = "Пользователь и все его данные удалены" });
         }
     }
 }

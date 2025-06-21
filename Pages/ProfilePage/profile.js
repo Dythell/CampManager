@@ -40,6 +40,10 @@ document.addEventListener("DOMContentLoaded", async () => {
                 roleText = userData.role;
         }
         document.getElementById("role").textContent = roleText;
+        if (userData.role === "Admin" || userData.role === "GAdmin") {
+    const approvalBtn = document.getElementById("adminApprovalBtn");
+    if (approvalBtn) approvalBtn.style.display = "inline-block";
+}
 
     } catch (error) {
         console.error("Ошибка загрузки профиля:", error);
